@@ -39,6 +39,7 @@ class Database
             $table->string('store_product_id');
             $table->string('title');
             $table->string('url');
+            $table->string('image_url')->nullable();
 
             $table->timestamp('last_checked_at');
 
@@ -51,6 +52,11 @@ class Database
 
             $table->unsignedInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
+
+            $table->string('store_variant_id');
+            $table->string('title');
+            $table->integer('price');
+            $table->boolean('available');
 
             $table->timestamps();
         });

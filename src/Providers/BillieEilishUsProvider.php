@@ -3,7 +3,10 @@
 namespace StoreNotifier\Providers;
 
 use GuzzleHttp\Client;
+use StoreNotifier\Providers\Data\ModelData\ProductData;
+use StoreNotifier\Providers\Data\ModelData\VariantData;
 use StoreNotifier\Providers\Data\Shopify\ShopifyProduct;
+use StoreNotifier\Providers\Data\Shopify\ShopifyVariant;
 
 final class BillieEilishUsProvider extends AbstractProvider
 {
@@ -36,10 +39,25 @@ final class BillieEilishUsProvider extends AbstractProvider
         $models = [];
 
         foreach ($shopifyProducts as $shopifyProduct) {
-            $models[] = new \StoreNotifier\Providers\Data\ModelData\ProductData([
+            $imageUrl = null;
+
+            foreach ($shopifyProduct->images as $image) {
+                $imageUrl = $image->src;
+                break;
+            }
+
+            $models[] = new ProductData([
                 'store_product_id' => (string) $shopifyProduct->id,
                 'title' => $shopifyProduct->title,
                 'url' => "{$baseUri}products/{$shopifyProduct->handle}",
+                'published_at' => $shopifyProduct->published_at,
+                'image_url' => $imageUrl,
+                'variants' => array_map(fn (ShopifyVariant $shopifyVariant) => new VariantData([
+                    'store_variant_id' => (string) $shopifyVariant->id,
+                    'title' => $shopifyVariant->title,
+                    'price' => (int) str_replace('.', '', $shopifyVariant->price),
+                    'available' => $shopifyVariant->available,
+                ]), $shopifyProduct->variants),
             ]);
         }
 

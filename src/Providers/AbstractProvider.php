@@ -43,20 +43,49 @@ abstract class AbstractProvider
      */
     protected function storeProducts(array $productsData): void
     {
-        $existingProducts = Product::query()
-            ->where('provider', static::getId())
-            ->whereIn('store_product_id', array_map(fn (ProductData $productData) => $productData->store_product_id, $productsData))
-            ->get();
+        $productIds = array_map(fn (ProductData $productData) => $productData->store_product_id, $productsData);
+
+        /** @var \StoreNotifier\Models\Product[] $existingProducts */
+        $existingProducts = [
+            ...Product::query()
+                ->where('provider', static::getId())
+                ->whereIn('store_product_id', $productIds)
+                ->get(),
+        ];
+
+        /** @var \StoreNotifier\Models\Product[] $removedProducts */
+        $removedProducts = [
+            ...Product::query()
+                ->where('provider', static::getId())
+                ->whereNotIn('store_product_id', $productIds)
+                ->get(),
+        ];
+
+        /** @var \StoreNotifier\Models\Product[] $newProducts */
+        $newProducts = [];
 
         foreach ($productsData as $productItem) {
-            $existingModel = $existingProducts->where('store_product_id', $productItem->store_product_id)->first();
+            $existingModel = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;
 
             if (null === $existingModel) {
-                Product::query()->create([
-                    ...$productItem->toArray(),
+                $data = $productItem->toArray();
+                unset($data['variants']);
+
+                /** @var \StoreNotifier\Models\Product $product */
+                $newProducts[] = $product = Product::query()->create([
+                    ...$data,
                     'provider' => static::getId(),
                     'last_checked_at' => Carbon::now(),
                 ]);
+
+                foreach ($productItem->variants as $variantItem) {
+                    $product->variants()->updateOrCreate([
+                        'store_variant_id' => $variantItem->store_variant_id,
+                        'title' => $variantItem->title,
+                        'price' => $variantItem->price,
+                        'available' => $variantItem->available,
+                    ]);
+                }
             }
         }
     }

@@ -6,5 +6,8 @@ use romanzipp\DTO\AbstractData;
 
 class VariantData extends AbstractData
 {
-
+    public string $store_variant_id;
+    public string $title;
+    public int $price;
+    public bool $available;
 }
