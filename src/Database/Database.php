@@ -7,12 +7,12 @@ use Illuminate\Database\Schema\Blueprint;
 
 class Database
 {
-    public Manager $manager;
+    public static Manager $manager;
 
     public function __construct()
     {
-        $this->manager = new Manager();
-        $this->manager->addConnection([
+        self::$manager = new Manager();
+        self::$manager->addConnection([
             'driver' => 'sqlite',
             'host' => 'database',
             'database' => 'database/db.sqlite',
@@ -23,15 +23,24 @@ class Database
             'prefix' => '',
         ]);
 
-        $this->manager->setAsGlobal();
-        $this->manager->bootEloquent();
+        self::$manager->setAsGlobal();
+        self::$manager->bootEloquent();
+    }
+
+    public static function getConnection()
+    {
+        if ( ! isset(self::$manager)) {
+            new self();
+        }
+
+        return self::$manager;
     }
 
     public function migrate(): void
     {
-        $this->manager::schema()->dropAllTables();
+        self::$manager::schema()->dropAllTables();
 
-        $this->manager::schema()->create('products', function (Blueprint $table) {
+        self::$manager::schema()->create('products', function (Blueprint $table) {
             $table->increments('id');
 
             $table->string('provider');
@@ -47,7 +56,7 @@ class Database
             $table->timestamps();
         });
 
-        $this->manager::schema()->create('variants', function (Blueprint $table) {
+        self::$manager::schema()->create('variants', function (Blueprint $table) {
             $table->increments('id');
 
             $table->unsignedInteger('product_id');
