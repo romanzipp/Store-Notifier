@@ -27,7 +27,7 @@ class Database
         $this->manager->bootEloquent();
     }
 
-    public function migrate()
+    public function migrate(): void
     {
         $this->manager::schema()->dropAllTables();
 
@@ -36,8 +36,21 @@ class Database
 
             $table->string('provider');
 
-            $table->string('store_id');
+            $table->string('store_product_id');
             $table->string('title');
+            $table->string('url');
+
+            $table->timestamp('last_checked_at');
+
+            $table->timestamp('published_at')->nullable();
+            $table->timestamps();
+        });
+
+        $this->manager::schema()->create('variants', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->unsignedInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
 
             $table->timestamps();
         });

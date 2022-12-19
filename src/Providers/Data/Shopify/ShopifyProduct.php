@@ -4,7 +4,7 @@ namespace StoreNotifier\Providers\Data\Shopify;
 
 use romanzipp\DTO\AbstractData;
 
-class Product extends AbstractData
+class ShopifyProduct extends AbstractData
 {
     public int $id; // 3928586125373
 
@@ -24,26 +24,26 @@ class Product extends AbstractData
     public array $tags;
 
     /**
-     * @var \StoreNotifier\Providers\Data\Shopify\Variant[]
+     * @var \StoreNotifier\Providers\Data\Shopify\ShopifyVariant[]
      */
     public array $variants;
 
     /**
-     * @var \StoreNotifier\Providers\Data\Shopify\Image[]
+     * @var \StoreNotifier\Providers\Data\Shopify\ShopifyImage[]
      */
     public array $images;
 
     /**
-     * @var \StoreNotifier\Providers\Data\Shopify\Option[]
+     * @var \StoreNotifier\Providers\Data\Shopify\ShopifyOption[]
      */
     public array $options;
 
     public static function fromArray(array $data = []): static
     {
         $instance = parent::fromArray($data);
-        $instance->variants = array_map(fn ($data) => Variant::fromArray((array) $data), $data['variants']);
-        $instance->options = array_map(fn ($data) => Option::fromArray((array) $data), $data['options']);
-        $instance->images = array_map(fn ($data) => Image::fromArray((array) $data), $data['images']);
+        $instance->variants = array_map(fn ($data) => ShopifyVariant::fromArray((array) $data), $data['variants']);
+        $instance->options = array_map(fn ($data) => ShopifyOption::fromArray((array) $data), $data['options']);
+        $instance->images = array_map(fn ($data) => ShopifyImage::fromArray((array) $data), $data['images']);
 
         return $instance;
     }

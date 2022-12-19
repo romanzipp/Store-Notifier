@@ -4,7 +4,7 @@ namespace StoreNotifier\Providers\Data\Shopify;
 
 use romanzipp\DTO\AbstractData;
 
-class Variant extends AbstractData
+class ShopifyVariant extends AbstractData
 {
     public int $id; // 29392462938173
 

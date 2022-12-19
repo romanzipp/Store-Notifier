@@ -4,7 +4,7 @@ namespace StoreNotifier\Providers\Data\Shopify;
 
 use romanzipp\DTO\AbstractData;
 
-class Collection extends AbstractData
+class ShopifyCollection extends AbstractData
 {
     public int $id; // 137554788413
     public string $title; // "Accessories"

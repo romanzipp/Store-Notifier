@@ -4,7 +4,7 @@ namespace StoreNotifier\Providers\Data\Shopify;
 
 use romanzipp\DTO\AbstractData;
 
-class Image extends AbstractData
+class ShopifyImage extends AbstractData
 {
     public int $id; // 29860376215613
 
