@@ -3,6 +3,7 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Models\Variant;
 use StoreNotifier\Providers\AbstractProvider;
 
 class NewProductsAvailable extends AbstractNotification
@@ -22,8 +23,7 @@ class NewProductsAvailable extends AbstractNotification
 
         foreach ($this->products as $product) {
             ! $image && ($image = $product->image_url);
-            ! $url = $product->url;
-            break;
+            ! $url && ($url = $product->url);
         }
 
         if (($count = count($this->products)) > 1) {
@@ -33,7 +33,17 @@ class NewProductsAvailable extends AbstractNotification
 
         $message = '';
         foreach ($this->products as $product) {
-            $message .= $product->title . PHP_EOL;
+            $messageLine = $product->title;
+
+            $variants = [...$product->availableVariants];
+            if ( ! empty($variants)) {
+                $messageLine .= ' (';
+                $messageLine .= implode(', ', array_map(fn (Variant $variant) => $variant->title, $variants));
+                $messageLine .= ')';
+            }
+
+            $messageLine .= PHP_EOL;
+            $message .= $messageLine;
         }
 
         $this->send(

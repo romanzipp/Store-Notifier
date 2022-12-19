@@ -5,7 +5,9 @@ namespace StoreNotifier\Providers;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use StoreNotifier\Models\Product;
+use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
+use StoreNotifier\Notifications\NewVariantsAvailable;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 
 abstract class AbstractProvider
@@ -70,9 +72,9 @@ abstract class AbstractProvider
         $newProducts = [];
 
         foreach ($productsData as $productItem) {
-            $existingModel = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;
+            $product = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;
 
-            if (null === $existingModel) {
+            if (null === $product) {
                 $data = $productItem->toArray();
                 unset($data['variants']);
 
@@ -82,15 +84,31 @@ abstract class AbstractProvider
                     'provider' => static::getId(),
                     'last_checked_at' => Carbon::now(),
                 ]);
+            }
 
-                foreach ($productItem->variants as $variantItem) {
-                    $product->variants()->updateOrCreate([
-                        'store_variant_id' => $variantItem->store_variant_id,
-                        'title' => $variantItem->title,
-                        'price' => $variantItem->price,
-                        'available' => $variantItem->available,
-                    ]);
-                }
+            // Variants
+
+            $variants = [];
+
+            foreach ($productItem->variants as $variantItem) {
+                $variants[] = $product->variants()->updateOrCreate([
+                    'store_variant_id' => $variantItem->store_variant_id,
+                ], [
+                    'title' => $variantItem->title,
+                    'price' => $variantItem->price,
+                    'available' => $variantItem->available,
+                ]);
+            }
+
+            if ($product->wasRecentlyCreated) {
+                continue;
+            }
+
+            $newVariants = array_filter($variants, fn (Variant $variant) => $variant->wasRecentlyCreated);
+
+            if ( ! empty($newVariants)) {
+                $notification = new NewVariantsAvailable($this, $newVariants);
+                $notification->handle();
             }
         }
 

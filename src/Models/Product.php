@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon|null $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\StoreNotifier\Models\Variant[] $variants
  * @property int|null $variants_count
+ * @property \Illuminate\Database\Eloquent\Collection|\StoreNotifier\Models\Variant[] $availableVariants
+ * @property int|null $available_variants_count
  */
 class Product extends AbstractModel
 {
@@ -25,5 +27,10 @@ class Product extends AbstractModel
     public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);
+    }
+
+    public function availableVariants(): HasMany
+    {
+        return $this->variants()->where('available', true);
     }
 }

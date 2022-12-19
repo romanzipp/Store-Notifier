@@ -13,7 +13,9 @@ abstract class AbstractNotification
 {
     public AbstractProvider $provider;
 
-    final public function send(string $message, string $title, string $url, ?string $attachment = null, int $prio = Priority::NORMAL): void
+    abstract public function handle(): void;
+
+    final protected function send(string $message, string $title, string $url, ?string $attachment = null, int $prio = Priority::NORMAL): void
     {
         $client = new Client();
 

@@ -2,6 +2,8 @@
 
 namespace StoreNotifier\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 /**
  * @property int $id
  * @property int $product_id
@@ -11,6 +13,8 @@ namespace StoreNotifier\Models;
  * @property bool $available
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property \StoreNotifier\Models\Product|null $product
+ * @property int|null $products_count
  */
 class Variant extends AbstractModel
 {
@@ -19,4 +23,14 @@ class Variant extends AbstractModel
     protected $casts = [
         'available' => 'boolean',
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function getPrettyPrice(): string
+    {
+        return number_format($this->price / 100, 2, ',', '.') . ' USD';
+    }
 }
