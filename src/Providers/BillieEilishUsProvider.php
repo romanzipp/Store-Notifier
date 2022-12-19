@@ -10,6 +10,10 @@ final class BillieEilishUsProvider extends AbstractProvider
 {
     public function handle()
     {
+        // https://store.billieeilish.com/products.json?page=2
+        // https://store.billieeilish.com/collections.json
+        // https://store.billieeilish.com/collections/apparel/products.json
+        // https://store.billieeilish.com/collections/apparel/products/cut-out-red-tour-t-shirt.json
         $client = new Client([
             'base_uri' => 'https://store.billieeilish.com/',
             'headers' => [
@@ -17,11 +21,6 @@ final class BillieEilishUsProvider extends AbstractProvider
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:108.0) Gecko/20100101 Firefox/108.0',
             ],
         ]);
-
-        // https://store.billieeilish.com/products.json?page=2
-        // https://store.billieeilish.com/collections.json
-        // https://store.billieeilish.com/collections/apparel/products.json
-        // https://store.billieeilish.com/collections/apparel/products/cut-out-red-tour-t-shirt.json
 
         $products = self::wrapArray(
             $client->get('products.json'),

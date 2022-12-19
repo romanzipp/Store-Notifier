@@ -13,11 +13,11 @@ class Database
     {
         $this->manager = new Manager();
         $this->manager->addConnection([
-            'driver' => 'mysql',
+            'driver' => 'sqlite',
             'host' => 'database',
-            'database' => 'lemp',
-            'username' => 'lemp',
-            'password' => 'lemp',
+            'database' => 'database/db.sqlite',
+            'username' => '',
+            'password' => '',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -31,12 +31,13 @@ class Database
     {
         $this->manager::schema()->dropAllTables();
 
-        $this->manager::schema()->create('users', function (Blueprint $table) {
+        $this->manager::schema()->create('products', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('email')->unique();
-            $table->text('password');
-            $table->string('name');
+            $table->string('provider');
+
+            $table->string('store_id');
+            $table->string('title');
 
             $table->timestamps();
         });

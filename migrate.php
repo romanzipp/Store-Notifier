@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreNotifier;
+require __DIR__ . '/vendor/autoload.php';
 
 use StoreNotifier\Database\Database;
 
