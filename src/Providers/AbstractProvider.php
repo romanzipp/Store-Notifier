@@ -69,9 +69,6 @@ abstract class AbstractProvider
         /** @var \StoreNotifier\Models\Product[] $newProducts */
         $newProducts = [];
 
-        $n = new NewProductsAvailable($this, $existingProducts);
-        $n->handle();
-
         foreach ($productsData as $productItem) {
             $existingModel = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;
 
@@ -95,6 +92,11 @@ abstract class AbstractProvider
                     ]);
                 }
             }
+        }
+
+        if ( ! empty($newProducts)) {
+            $notification = new NewProductsAvailable($this, $newProducts);
+            $notification->handle();
         }
     }
 }

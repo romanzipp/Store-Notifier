@@ -2,9 +2,7 @@
 
 namespace StoreNotifier\Notifications;
 
-use donatj\Pushover\Options;
 use donatj\Pushover\Priority;
-use donatj\Pushover\Pushover;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Utils;
@@ -66,19 +64,6 @@ abstract class AbstractNotification
                     );
                 }
             };
-        }
-
-        dd();
-
-        $push = new Pushover($_ENV['PUSHOVER_APP_KEY'], $_ENV['PUSHOVER_USER_KEY']);
-        $ok = $push->send($message, [
-            Options::TITLE => $title,
-            Options::URL => $url,
-            Options::PRIORITY => $prio,
-        ]);
-
-        if ( ! $ok) {
-            throw new \Exception('Failed sending push');
         }
     }
 }
