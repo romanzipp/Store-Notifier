@@ -5,11 +5,16 @@ namespace StoreNotifier\Providers;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use StoreNotifier\Models\Product;
+use StoreNotifier\Notifications\NewProductsAvailable;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 
 abstract class AbstractProvider
 {
     abstract public static function getId(): string;
+
+    abstract public static function getTitle(): string;
+
+    abstract public static function getUrl(): string;
 
     abstract public function handle(): void;
 
@@ -63,6 +68,9 @@ abstract class AbstractProvider
 
         /** @var \StoreNotifier\Models\Product[] $newProducts */
         $newProducts = [];
+
+        $n = new NewProductsAvailable($this, $existingProducts);
+        $n->handle();
 
         foreach ($productsData as $productItem) {
             $existingModel = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;

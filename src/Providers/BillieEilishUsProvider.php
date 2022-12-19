@@ -15,6 +15,16 @@ final class BillieEilishUsProvider extends AbstractProvider
         return 'billie-us';
     }
 
+    public static function getTitle(): string
+    {
+        return 'Billie Eilish (US)';
+    }
+
+    public static function getUrl(): string
+    {
+        return 'https://store.billieeilish.com';
+    }
+
     public function handle(): void
     {
         // https://store.billieeilish.com/products.json?page=2
