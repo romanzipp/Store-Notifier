@@ -9,6 +9,7 @@ use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
 use StoreNotifier\Notifications\NewVariantsAvailable;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
+use StoreNotifier\Providers\Data\ModelData\VariantData;
 
 abstract class AbstractProvider
 {
@@ -88,6 +89,20 @@ abstract class AbstractProvider
 
             // Variants
 
+            /** @var \StoreNotifier\Models\Variant[] $existingNewlyAvailableVariants */
+            $existingNewlyAvailableVariants = $product
+                ->variants()
+                ->where('available', false)
+                ->whereIn(
+                    'store_variant_id',
+                    array_map(
+                        fn (VariantData $variant) => $variant->store_variant_id,
+                        array_filter($productItem->variants, fn (VariantData $variant) => $variant->available)
+                    )
+                )
+                ->get();
+
+            /** @var \StoreNotifier\Models\Variant[] $variants */
             $variants = [];
 
             foreach ($productItem->variants as $variantItem) {
@@ -106,8 +121,13 @@ abstract class AbstractProvider
 
             $newVariants = array_filter($variants, fn (Variant $variant) => $variant->wasRecentlyCreated);
 
-            if ( ! empty($newVariants)) {
-                $notification = new NewVariantsAvailable($this, $newVariants);
+            $notifyVaraints = [
+                ...$existingNewlyAvailableVariants,
+                ...$newVariants,
+            ];
+
+            if ( ! empty($notifyVaraints)) {
+                $notification = new NewVariantsAvailable($this, $notifyVaraints);
                 $notification->handle();
             }
         }
