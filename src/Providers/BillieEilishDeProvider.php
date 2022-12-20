@@ -34,8 +34,7 @@ class BillieEilishDeProvider extends AbstractProvider
         return new Client([
             RequestOptions::HEADERS => [
                 'User-Agent' => UserAgent::random(),
-                'X-Forwarded-For' => $ip = sprintf('%d.%d.%d.%d', rand(11, 255), rand(11, 255), rand(11, 255), rand(11, 255)),
-                'CF-Connecting-IP' => $ip,
+                'X-Forwarded-For' => sprintf('%d.%d.%d.%d', rand(11, 254), rand(1, 255), rand(1, 255), rand(1, 255)),
             ],
         ]);
     }
