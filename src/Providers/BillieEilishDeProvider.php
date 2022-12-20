@@ -130,6 +130,16 @@ class BillieEilishDeProvider extends AbstractProvider
                        $product->variants[] = $variant;
                    });
 
+               if (empty($product->variants)) {
+                   $product->variants = [new VariantData([
+                       'store_variant_id' => "{$product->store_product_id}_default",
+                       'title' => 'Default',
+                       'price' => $price,
+                       'currency' => 'EUR',
+                       'available' => 1,
+                   ])];
+               }
+
                $products[] = $product;
 
                self::logProduct($product);
