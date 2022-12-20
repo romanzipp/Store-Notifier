@@ -78,18 +78,22 @@ abstract class AbstractProvider
         $newProducts = [];
 
         foreach ($productsData as $productItem) {
+            /** @var \StoreNotifier\Models\Product $product */
             $product = [...array_filter($existingProducts, fn (Product $product) => $product->store_product_id === $productItem->store_product_id)][0] ?? null;
 
-            if (null === $product) {
-                $data = $productItem->toArray();
-                unset($data['variants']);
+            $data = $productItem->toArray();
+            $data['last_checked_at'] = Carbon::now();
+            unset($data['variants']);
 
+            if (null === $product) {
                 /** @var \StoreNotifier\Models\Product $product */
                 $newProducts[] = $product = Product::query()->create([
                     ...$data,
                     'provider' => static::getId(),
                     'last_checked_at' => Carbon::now(),
                 ]);
+            } else {
+                $product->update(...$data);
             }
 
             // Variants
