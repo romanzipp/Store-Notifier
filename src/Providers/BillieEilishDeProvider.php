@@ -2,8 +2,11 @@
 
 namespace StoreNotifier\Providers;
 
+use Campo\UserAgent;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\RequestOptions;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use Symfony\Component\DomCrawler\Crawler;
@@ -25,12 +28,22 @@ class BillieEilishDeProvider extends AbstractProvider
         return 'https://www.billieeilishstore.de/';
     }
 
+    private static function newClient(): Client
+    {
+        return new Client([
+            RequestOptions::HEADERS => [
+                'User-Agent' => UserAgent::random(),
+            ],
+        ]);
+    }
+
     public function handle(): void
     {
-        $client = new Client();
-
         try {
-            $contents = $client->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html')->getBody()->getContents();
+            $contents = self::newClient()
+                ->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html')
+                ->getBody()
+                ->getContents();
         } catch (ClientException $exception) {
             self::log('error requesting main content');
             self::log($exception->getMessage());
@@ -43,7 +56,7 @@ class BillieEilishDeProvider extends AbstractProvider
         $crawler = new Crawler($contents);
         $crawler
            ->filter('body #content div[role="list"] > div[role="listitem"]')
-           ->each(function (Crawler $crawler) use (&$products, &$client) {
+           ->each(function (Crawler $crawler) use (&$products) {
                $image = $crawler->filter('a.thumbnail')->first();
 
                $product = new ProductData([
@@ -57,7 +70,10 @@ class BillieEilishDeProvider extends AbstractProvider
 
                try {
                    // https://www.bravado.de/pSFPAjaxProduct?id=0196177046412
-                   $detailContents = $client->get($detailUrl = "https://www.bravado.de/pSFPAjaxProduct?id={$product->store_product_id}")->getBody()->getContents();
+                   $detailContents = self::newClient()
+                       ->get($detailUrl = "https://www.bravado.de/pSFPAjaxProduct?id={$product->store_product_id}")
+                       ->getBody()
+                       ->getContents();
                } catch (ClientException $exception) {
                    self::log('error requesting detail content');
                    self::log("tried url: {$detailUrl}");
@@ -68,6 +84,15 @@ class BillieEilishDeProvider extends AbstractProvider
                }
 
                $detailCrawler = new Crawler($detailContents);
+
+               $publishedAt = $detailCrawler
+                   ->filter('.date > span:not(.detail-label)')
+                   ->text();
+
+               if ($publishedAt) {
+                   $product->published_at = (string) Carbon::createFromFormat('d.m.Y', $publishedAt);
+               }
+
                $detailCrawler
                    ->filter('form[data-available-variants] button[data-id]')
                    ->each(function (Crawler $detailCrawler) use ($price, &$product) {
