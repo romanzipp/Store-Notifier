@@ -136,7 +136,7 @@ class BillieEilishDeProvider extends AbstractProvider
                        'title' => 'Default',
                        'price' => $price,
                        'currency' => 'EUR',
-                       'available' => 1,
+                       'available' => true,
                    ])];
                }
 
