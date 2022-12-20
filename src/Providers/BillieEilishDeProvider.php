@@ -51,8 +51,12 @@ class BillieEilishDeProvider extends AbstractProvider
                 }
 
                 ++$i;
-                $wait = min(5, ($retryAfter = $exception->getResponse()->getHeaderLine('Retry-After')) ? (int) $retryAfter : 5);
+                $wait = ($retryAfter = $exception->getResponse()->getHeaderLine('Retry-After'))
+                    ? min((int) $retryAfter, 5)
+                    : 5;
+
                 self::log("encountered 429 Too Many Requests. Waiting {$wait} seconds... (try {$i}/{$max})");
+
                 sleep($wait);
             }
         }
