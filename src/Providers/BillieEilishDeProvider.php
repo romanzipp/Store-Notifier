@@ -6,6 +6,7 @@ use Campo\UserAgent;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
@@ -37,11 +38,29 @@ class BillieEilishDeProvider extends AbstractProvider
         ]);
     }
 
+    private static function retryRequest(\Closure $requestClosure, int $max = 5): Response
+    {
+        $i = 0;
+        while (true) {
+            try {
+                return $requestClosure();
+            } catch (ClientException $exception) {
+                if (429 !== $exception->getResponse()->getStatusCode() || $i > $max) {
+                    throw $exception;
+                }
+
+                ++$i;
+                $wait = min(5, ($retryAfter = $exception->getResponse()->getHeaderLine('Retry-After')) ? (int) $retryAfter : 5);
+                self::log("encountered 429 Too Many Requests. Waiting {$wait} seconds... (try {$i}/{$max})");
+                sleep($wait);
+            }
+        }
+    }
+
     public function handle(): void
     {
         try {
-            $contents = self::newClient()
-                ->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html')
+            $contents = self::retryRequest(fn () => self::newClient()->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html'))
                 ->getBody()
                 ->getContents();
         } catch (ClientException $exception) {
@@ -70,8 +89,9 @@ class BillieEilishDeProvider extends AbstractProvider
 
                try {
                    // https://www.bravado.de/pSFPAjaxProduct?id=0196177046412
-                   $detailContents = self::newClient()
-                       ->get($detailUrl = "https://www.bravado.de/pSFPAjaxProduct?id={$product->store_product_id}")
+                   $detailUrl = "https://www.bravado.de/pSFPAjaxProduct?id={$product->store_product_id}";
+
+                   $detailContents = self::retryRequest(fn () => self::newClient()->get($detailUrl))
                        ->getBody()
                        ->getContents();
                } catch (ClientException $exception) {
