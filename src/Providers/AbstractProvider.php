@@ -90,7 +90,6 @@ abstract class AbstractProvider
                 $newProducts[] = $product = Product::query()->create([
                     ...$data,
                     'provider' => static::getId(),
-                    'last_checked_at' => Carbon::now(),
                 ]);
             } else {
                 $product->update(...$data);
