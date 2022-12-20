@@ -30,8 +30,8 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
-            new BillieEilishDeProvider(),
             new BillieEilishUsProvider(),
+            new BillieEilishDeProvider(),
         ];
     }
 
@@ -115,6 +115,7 @@ abstract class AbstractProvider
                 ], [
                     'title' => $variantItem->title,
                     'price' => $variantItem->price,
+                    'currency' => $variantItem->currency,
                     'available' => $variantItem->available,
                     'units_available' => $variantItem->units_available,
                 ]);
