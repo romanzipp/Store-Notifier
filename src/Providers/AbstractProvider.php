@@ -30,6 +30,7 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
         ];

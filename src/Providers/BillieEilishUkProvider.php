@@ -1,0 +1,147 @@
+<?php
+
+namespace StoreNotifier\Providers;
+
+use GuzzleHttp\Client;
+use StoreNotifier\Providers\Data\ModelData\ProductData;
+use StoreNotifier\Providers\Data\ModelData\VariantData;
+use Symfony\Component\DomCrawler\Crawler;
+
+class BillieEilishUkProvider extends AbstractProvider
+{
+    public static function getId(): string
+    {
+        return 'billie-uk';
+    }
+
+    public static function getTitle(): string
+    {
+        return 'Billie (UK)';
+    }
+
+    public static function getUrl(): string
+    {
+        return 'https://shopuk.billieeilish.com';
+    }
+
+    public function handle(): void
+    {
+        // Powered by https://www.digitalstores.co.uk/
+        $mainUrls = [
+            '*/Merch/',
+            '*/Accessories/',
+            '*/Music/',
+            '*/Kids/',
+        ];
+
+        $client = new Client([
+            'base_uri' => self::getUrl(),
+        ]);
+
+        /** @var \StoreNotifier\Providers\Data\ModelData\ProductData[] $products */
+        $products = [];
+
+        foreach ($mainUrls as $url) {
+            self::log("crawling product list on: {$url}");
+            $contents = $client->get($url)->getBody()->getContents();
+
+            $crawler = new Crawler($contents);
+            $productsElements = $crawler->filter('body dl.product');
+
+            if (0 === $productsElements->count()) {
+                self::log('empty product list');
+                continue;
+            }
+
+            $productsElements->each(function (Crawler $crawler) use (&$products, $url) {
+                try {
+                    $title = $crawler->filter('dt.title a')->first()->text();
+                    $productUrl = $crawler->filter('dt.title a')->first()->attr('href');
+                    $image = $crawler->filter('img')->first()->attr('src');
+                    $classes = array_filter(explode(' ', $crawler->attr('class')));
+
+                    $id = null;
+                    foreach ($classes as $class) {
+                        if (str_contains($class, 'product')) {
+                            continue;
+                        }
+
+                        $id = $class;
+                        break;
+                    }
+
+                    if (null === $id) {
+                        self::log("couldnt extract id from {$title}");
+                    }
+
+                    $products[] = new ProductData([
+                        'store_product_id' => $id,
+                        'title' => $title,
+                        'url' => self::getUrl() . $productUrl,
+                        'image_url' => $image,
+                    ]);
+                } catch (\Throwable $exception) {
+                    self::log("Error crawling {$url}");
+                    self::log($exception->getMessage());
+
+                    return;
+                }
+            });
+        }
+
+        foreach ($products as $product) {
+            $contents = $client->get($product->url)->getBody()->getContents();
+
+            $crawler = new Crawler($contents);
+
+            $price = $crawler->filter('#main .content .price')->first()->text();
+            $price = str_replace('£', '', $price);
+            $price = (int) str_replace('.', '', $price);
+
+            $crawler
+                ->filter('body #main dl#variant dd')
+                ->each(function (Crawler $crawler) use (&$product, $price) {
+                    $title = trim($crawler->text());
+
+                    $product->variants[] = new VariantData([
+                        'store_variant_id' => $title,
+                        'title' => $title,
+                        'price' => $price,
+                        'currency' => 'GBP',
+                        'available' => 'unavailable' !== $crawler->attr('class'),
+                    ]);
+                });
+
+            if (empty($product->variants)) {
+                $variant = new VariantData([
+                    'store_variant_id' => 'default',
+                    'title' => 'Default',
+                    'price' => $price,
+                    'currency' => 'GBP',
+                    'available' => false,
+                ]);
+
+                $canAdd = $crawler->filter('input[name="add"]')->count() > 0;
+                $preOrder = $crawler->filter('input[name="preorder"]')->count() > 0;
+                $soldOut = ($dispatch = $crawler->filter('li.dispatch'))->count() > 0 && str_contains($dispatch->text(), 'Sold Out');
+
+                if ($canAdd) {
+                    $variant->available = true;
+                } elseif ($preOrder) {
+                    $variant->title = 'Pre-Order';
+                    $variant->available = true;
+                } elseif ($soldOut) {
+                    $variant->available = false;
+                } else {
+                    self::log("Unknown status for product {$product->title}");
+                }
+
+                $product->variants = [$variant];
+            }
+
+            self::logProduct($product);
+        }
+
+        $this->storeProducts($products);
+    }
+}
