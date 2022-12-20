@@ -76,15 +76,17 @@ class BillieEilishDeProvider extends AbstractProvider
         $crawler
            ->filter('body #content div[role="list"] > div[role="listitem"]')
            ->each(function (Crawler $crawler) use (&$products) {
-               $image = $crawler->filter('a.thumbnail')->first();
+               $link = $crawler->filter('a.thumbnail')->first();
+               $image = $crawler->filter('img')->first();
 
                $product = new ProductData([
-                   'store_product_id' => $image->attr('data-id'),
-                   'title' => $image->attr('data-name'),
-                   'url' => $image->attr('href'),
+                   'store_product_id' => $link->attr('data-id'),
+                   'title' => $link->attr('data-name'),
+                   'url' => $link->attr('href'),
+                   'image_url' => $image->attr('src') ?? null,
                ]);
 
-               $price = (int) str_replace(',', '', $image->attr('data-price'));
+               $price = (int) str_replace(',', '', $link->attr('data-price'));
 
                try {
                    // https://www.bravado.de/pSFPAjaxProduct?id=0196177046412
