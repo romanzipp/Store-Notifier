@@ -79,7 +79,6 @@ class BillieEilishDeProvider extends AbstractProvider
                $image = $crawler->filter('a.thumbnail')->first();
 
                $product = new ProductData([
-                   'provider' => self::getId(),
                    'store_product_id' => $image->attr('data-id'),
                    'title' => $image->attr('data-name'),
                    'url' => $image->attr('href'),

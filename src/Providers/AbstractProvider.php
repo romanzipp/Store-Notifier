@@ -31,7 +31,7 @@ abstract class AbstractProvider
     {
         return [
             new BillieEilishDeProvider(),
-            // new BillieEilishUsProvider(),
+            new BillieEilishUsProvider(),
         ];
     }
 

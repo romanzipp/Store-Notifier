@@ -8,8 +8,6 @@ use romanzipp\DTO\Attributes\Required;
 class ProductData extends AbstractData
 {
     public string $id;
-
-    #[Required]
     public string $provider;
 
     #[Required]

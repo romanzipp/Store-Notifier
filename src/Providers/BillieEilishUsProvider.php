@@ -56,7 +56,7 @@ final class BillieEilishUsProvider extends AbstractProvider
                 break;
             }
 
-            $models[] = new ProductData([
+            $models[] = $product = new ProductData([
                 'store_product_id' => (string) $shopifyProduct->id,
                 'title' => $shopifyProduct->title,
                 'url' => "{$baseUri}products/{$shopifyProduct->handle}",
@@ -69,6 +69,8 @@ final class BillieEilishUsProvider extends AbstractProvider
                     'available' => $shopifyVariant->available,
                 ]), $shopifyProduct->variants),
             ]);
+
+            self::logProduct($product);
         }
 
         $this->storeProducts($models);

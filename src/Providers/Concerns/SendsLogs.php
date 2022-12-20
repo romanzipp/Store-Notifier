@@ -15,9 +15,9 @@ trait SendsLogs
     {
         self::log(
             sprintf(
-                'Var: %d ... VarAv: %d ... Pr: %s ... %s',
-                count($product->variants),
-                count(array_filter($product->variants, fn (VariantData $variant) => $variant->available)),
+                'Var: %s ... VarAv: %s ... Pr: %s ... %s',
+                Str::padRight(count($product->variants), 3),
+                Str::padRight(count(array_filter($product->variants, fn (VariantData $variant) => $variant->available)), 3),
                 Str::padRight(($variant = $product->getFirstVariant()) ? $variant->getPrettyPrice() : '-', 10),
                 $product->title
             )
