@@ -95,24 +95,29 @@ class BillieEilishUkProvider extends AbstractProvider
             $crawler = new Crawler($contents);
 
             $price = $crawler->filter('#main .content .price')->first()->text();
-            $price = str_replace('£', '', $price);
             $price = str_replace('.', '', $price);
             $price = str_replace(',', '', $price);
 
-            self::log($price);
+            $currency = 'USD';
+            foreach (['€' => 'EUR', '£' => 'GBP', '$' => 'USD'] as $symbol => $cu) {
+                if (str_contains($price, $symbol)) {
+                    $currency = $cu;
+                    $price = str_replace($symbol, '', $price);
+                }
+            }
 
             $price = (int) $price;
 
             $crawler
                 ->filter('body #main dl#variant dd')
-                ->each(function (Crawler $crawler) use (&$product, $price) {
+                ->each(function (Crawler $crawler) use (&$product, $price, $currency) {
                     $title = trim($crawler->text());
 
                     $product->variants[] = new VariantData([
                         'store_variant_id' => $title,
                         'title' => $title,
                         'price' => $price,
-                        'currency' => 'GBP',
+                        'currency' => $currency,
                         'available' => 'unavailable' !== $crawler->attr('class'),
                     ]);
                 });
@@ -122,7 +127,7 @@ class BillieEilishUkProvider extends AbstractProvider
                     'store_variant_id' => 'default',
                     'title' => 'Default',
                     'price' => $price,
-                    'currency' => 'GBP',
+                    'currency' => $currency,
                     'available' => false,
                 ]);
 
