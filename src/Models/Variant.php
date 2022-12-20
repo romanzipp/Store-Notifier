@@ -31,6 +31,11 @@ class Variant extends AbstractModel
 
     public function getPrettyPrice(): string
     {
-        return number_format($this->price / 100, 2, ',', '.') . ' USD';
+        return self::prettifyPrice($this->price, $this->currency);
+    }
+
+    public static function prettifyPrice(int $price, string $currency): string
+    {
+        return number_format($price / 100, 2, ',', '.') . ' ' . $currency;
     }
 }
