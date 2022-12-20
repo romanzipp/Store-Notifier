@@ -17,7 +17,7 @@ class NewProductsAvailable extends AbstractNotification
 
     public function handle(): void
     {
-        $title = 'Neues Produkt verfügbar';
+        $title = 'Neues Produkt';
         $url = null;
         $image = null;
 
@@ -27,7 +27,7 @@ class NewProductsAvailable extends AbstractNotification
         }
 
         if (($count = count($this->products)) > 1) {
-            $title = "{$count} neue Produkte verfügbar";
+            $title = "{$count} neue Produkte";
             $url = $this->provider::getUrl();
         }
 

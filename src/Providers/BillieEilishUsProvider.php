@@ -17,7 +17,7 @@ final class BillieEilishUsProvider extends AbstractProvider
 
     public static function getTitle(): string
     {
-        return 'Billie Eilish (US)';
+        return 'Billie (US)';
     }
 
     public static function getUrl(): string
