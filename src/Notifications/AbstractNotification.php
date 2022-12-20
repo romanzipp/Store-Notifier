@@ -15,15 +15,22 @@ abstract class AbstractNotification
 
     abstract public function handle(): void;
 
-    final protected function send(string $message, string $title, string $url, ?string $attachment = null, int $prio = Priority::NORMAL): void
-    {
+    final protected function send(
+        string $message,
+        string $title,
+        string $url,
+        ?string $attachment = null,
+        int $prio = Priority::NORMAL
+    ): void {
         $client = new Client();
 
         $attachmentData = null;
 
-        try {
-            $attachmentData = Utils::tryFopen($attachment, 'r');
-        } catch (\RuntimeException $exception) {
+        if ($attachment) {
+            try {
+                $attachmentData = Utils::tryFopen($attachment, 'r');
+            } catch (\RuntimeException $exception) {
+            }
         }
 
         $params = [
