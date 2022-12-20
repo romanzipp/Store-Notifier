@@ -22,5 +22,5 @@ class ProductData extends AbstractData
     /**
      * @var \StoreNotifier\Providers\Data\ModelData\VariantData[]
      */
-    public array $variants;
+    public array $variants = [];
 }

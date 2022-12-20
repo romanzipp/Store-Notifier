@@ -112,6 +112,7 @@ abstract class AbstractProvider
                     'title' => $variantItem->title,
                     'price' => $variantItem->price,
                     'available' => $variantItem->available,
+                    'units_available' => $variantItem->units_available,
                 ]);
             }
 

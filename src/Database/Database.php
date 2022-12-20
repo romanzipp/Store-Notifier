@@ -65,7 +65,9 @@ class Database
             $table->string('store_variant_id');
             $table->string('title');
             $table->integer('price');
+
             $table->boolean('available');
+            $table->unsignedInteger('units_available')->nullable();
 
             $table->timestamps();
         });
