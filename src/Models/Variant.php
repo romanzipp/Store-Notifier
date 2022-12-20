@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $store_variant_id
  * @property string $title
  * @property int $price
+ * @property string $currency
  * @property bool $available
+ * @property int|null $units_available
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \StoreNotifier\Models\Product|null $product
