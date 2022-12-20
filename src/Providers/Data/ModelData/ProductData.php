@@ -3,14 +3,19 @@
 namespace StoreNotifier\Providers\Data\ModelData;
 
 use romanzipp\DTO\AbstractData;
+use romanzipp\DTO\Attributes\Required;
 
 class ProductData extends AbstractData
 {
     public string $id;
 
+    #[Required]
     public string $provider;
 
+    #[Required]
     public string $store_product_id;
+
+    #[Required]
     public string $title;
     public string $url;
     public string $image_url;
@@ -23,4 +28,13 @@ class ProductData extends AbstractData
      * @var \StoreNotifier\Providers\Data\ModelData\VariantData[]
      */
     public array $variants = [];
+
+    public function getFirstVariant(): ?VariantData
+    {
+        foreach ($this->variants as $variant) {
+            return $variant;
+        }
+
+        return null;
+    }
 }

@@ -8,11 +8,14 @@ use StoreNotifier\Models\Product;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
 use StoreNotifier\Notifications\NewVariantsAvailable;
+use StoreNotifier\Providers\Concerns\SendsLogs;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 
 abstract class AbstractProvider
 {
+    use SendsLogs;
+
     abstract public static function getId(): string;
 
     abstract public static function getTitle(): string;
@@ -27,7 +30,8 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
-            new BillieEilishUsProvider(),
+            new BillieEilishDeProvider(),
+            // new BillieEilishUsProvider(),
         ];
     }
 
