@@ -96,7 +96,12 @@ class BillieEilishUkProvider extends AbstractProvider
 
             $price = $crawler->filter('#main .content .price')->first()->text();
             $price = str_replace('£', '', $price);
-            $price = (int) str_replace('.', '', $price);
+            $price = str_replace('.', '', $price);
+            $price = str_replace(',', '', $price);
+
+            self::log($price);
+
+            $price = (int) $price;
 
             $crawler
                 ->filter('body #main dl#variant dd')
