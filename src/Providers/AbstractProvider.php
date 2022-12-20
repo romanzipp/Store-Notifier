@@ -92,7 +92,9 @@ abstract class AbstractProvider
                     'provider' => static::getId(),
                 ]);
             } else {
-                $product->update(...$data);
+                $product->update([
+                    ...$data,
+                ]);
             }
 
             // Variants
