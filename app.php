@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use StoreNotifier\Database\Database;
+use StoreNotifier\Notifications\ErrorOccured;
 use StoreNotifier\Providers\AbstractProvider;
 
 new Database();
@@ -17,7 +18,9 @@ foreach ($providers as $provider) {
     try {
         $provider->handle();
     } catch (Throwable $exception) {
-        echo "error executing {$provider::getId()}:" . PHP_EOL;
-        echo $exception->getMessage() . PHP_EOL;
+        $notification = new ErrorOccured($provider, $exception->getMessage());
+        $notification->handle();
+
+        dump($exception);
     }
 }

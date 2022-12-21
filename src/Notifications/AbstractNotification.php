@@ -18,7 +18,7 @@ abstract class AbstractNotification
     final protected function send(
         string $message,
         string $title,
-        string $url,
+        ?string $url = null,
         ?string $attachment = null,
         int $prio = Priority::NORMAL
     ): void {

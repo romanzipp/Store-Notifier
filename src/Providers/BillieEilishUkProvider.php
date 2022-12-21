@@ -3,6 +3,7 @@
 namespace StoreNotifier\Providers;
 
 use GuzzleHttp\Client;
+use StoreNotifier\Notifications\ErrorOccured;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use Symfony\Component\DomCrawler\Crawler;
@@ -81,8 +82,10 @@ class BillieEilishUkProvider extends AbstractProvider
                         'image_url' => $image,
                     ]);
                 } catch (\Throwable $exception) {
-                    self::log("Error crawling {$url}");
-                    self::log($exception->getMessage());
+                    $notification = new ErrorOccured($this, "Error crawling {$url}: {$exception->getMessage()}");
+                    $notification->handle();
+
+                    dump($exception);
 
                     return;
                 }

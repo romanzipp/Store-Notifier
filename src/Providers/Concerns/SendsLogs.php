@@ -2,6 +2,7 @@
 
 namespace StoreNotifier\Providers\Concerns;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
@@ -27,7 +28,8 @@ trait SendsLogs
     protected static function log(string $line): void
     {
         echo sprintf(
-            '[%s] %s',
+            '%s [%s] %s',
+            Carbon::now()->format('Y-m-d H:i:s'),
             Str::padBoth(static::getId(), 13),
             $line
         ) . PHP_EOL;
