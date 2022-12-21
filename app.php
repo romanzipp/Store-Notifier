@@ -14,5 +14,10 @@ $dotenv->load();
 $providers = AbstractProvider::getAll();
 
 foreach ($providers as $provider) {
-    $provider->handle();
+    try {
+        $provider->handle();
+    } catch (Throwable $exception) {
+        echo "error executing {$provider::getId()}:" . PHP_EOL;
+        echo $exception->getMessage() . PHP_EOL;
+    }
 }
