@@ -19,7 +19,7 @@ class ShopifyVariant extends AbstractData
     public bool $available; // false
     public string $price; // "30.00"
     public int $grams; // 200
-    public ?bool $compare_at_price; // null
+    public ?string $compare_at_price; // null
     public int $position; // 1
     public int $product_id; // 3928586125373
 
