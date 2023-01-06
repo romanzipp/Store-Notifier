@@ -43,14 +43,14 @@ class BillieEilishUkProvider extends AbstractProvider
         $products = [];
 
         foreach ($mainUrls as $url) {
-            self::log("crawling product list on: {$url}");
+            $this->logger->log("crawling product list on: {$url}", self::getId());
             $contents = $client->get($url)->getBody()->getContents();
 
             $crawler = new Crawler($contents);
             $productsElements = $crawler->filter('body dl.product');
 
             if (0 === $productsElements->count()) {
-                self::log('empty product list');
+                $this->logger->log('empty product list');
                 continue;
             }
 
@@ -72,7 +72,7 @@ class BillieEilishUkProvider extends AbstractProvider
                     }
 
                     if (null === $id) {
-                        self::log("couldnt extract id from {$title}");
+                        $this->logger->log("couldnt extract id from {$title}");
                     }
 
                     $products[] = new ProductData([
@@ -146,13 +146,13 @@ class BillieEilishUkProvider extends AbstractProvider
                 } elseif ($soldOut) {
                     $variant->available = false;
                 } else {
-                    self::log("Unknown status for product {$product->title}");
+                    $this->logger->log("Unknown status for product {$product->title}");
                 }
 
                 $product->variants = [$variant];
             }
 
-            self::logProduct($product);
+            $this->logger->logProduct($product);
         }
 
         $this->storeProducts($products);

@@ -39,7 +39,7 @@ class BillieEilishDeProvider extends AbstractProvider
         ]);
     }
 
-    private static function retryRequest(\Closure $requestClosure, int $max = 5): Response
+    private function retryRequest(\Closure $requestClosure, int $max = 5): Response
     {
         $i = 0;
         while (true) {
@@ -55,7 +55,7 @@ class BillieEilishDeProvider extends AbstractProvider
                     ? min((int) $retryAfter, 5)
                     : 5;
 
-                self::log("encountered 429 Too Many Requests. Waiting {$wait} seconds... (try {$i}/{$max})");
+                $this->logger->log("encountered 429 Too Many Requests. Waiting {$wait} seconds... (try {$i}/{$max})");
 
                 sleep($wait);
             }
@@ -65,12 +65,12 @@ class BillieEilishDeProvider extends AbstractProvider
     public function handle(): void
     {
         try {
-            $contents = self::retryRequest(fn () => self::newClient()->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html'))
+            $contents = $this->retryRequest(fn () => self::newClient()->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html'))
                 ->getBody()
                 ->getContents();
         } catch (ClientException $exception) {
-            self::log('error requesting main content');
-            self::log($exception->getMessage());
+            $this->logger->log('error requesting main content');
+            $this->logger->log($exception->getMessage());
 
             return;
         }
@@ -101,10 +101,10 @@ class BillieEilishDeProvider extends AbstractProvider
                        ->getBody()
                        ->getContents();
                } catch (ClientException $exception) {
-                   self::log('error requesting detail content');
-                   self::log("tried url: {$detailUrl}");
-                   self::log("status: {$exception->getResponse()->getStatusCode()}");
-                   self::log($exception->getMessage());
+                   $this->logger->log('error requesting detail content');
+                   $this->logger->log("tried url: {$detailUrl}");
+                   $this->logger->log("status: {$exception->getResponse()->getStatusCode()}");
+                   $this->logger->log($exception->getMessage());
 
                    return;
                }
@@ -146,7 +146,7 @@ class BillieEilishDeProvider extends AbstractProvider
 
                $products[] = $product;
 
-               self::logProduct($product);
+               $this->logger->logProduct($product);
            });
 
         $this->storeProducts($products);

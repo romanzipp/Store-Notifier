@@ -4,19 +4,19 @@ namespace StoreNotifier\Providers;
 
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
+use StoreNotifier\Log\Logger;
 use StoreNotifier\Models\AbstractModel;
 use StoreNotifier\Models\Event;
 use StoreNotifier\Models\Product;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
 use StoreNotifier\Notifications\NewVariantsAvailable;
-use StoreNotifier\Providers\Concerns\SendsLogs;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 
 abstract class AbstractProvider
 {
-    use SendsLogs;
+    public Logger $logger;
 
     abstract public static function getId(): string;
 
@@ -25,6 +25,12 @@ abstract class AbstractProvider
     abstract public static function getUrl(): string;
 
     abstract public function handle(): void;
+
+    public function __construct()
+    {
+        $this->logger = new Logger();
+        $this->logger->provider = $this;
+    }
 
     /**
      * @return self[]

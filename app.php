@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use StoreNotifier\Database\Database;
+use StoreNotifier\Log\Logger;
 use StoreNotifier\Models\Event;
 use StoreNotifier\Notifications\ErrorOccured;
 use StoreNotifier\Providers\AbstractProvider;
@@ -26,6 +27,6 @@ foreach ($providers as $provider) {
             $notification->execute();
         }
 
-        echo "ERROR in {$provider::getId()}: {$exception->getMessage()}";
+        $provider->logger->log("ERROR in {$provider::getId()}: {$exception->getMessage()}");
     }
 }

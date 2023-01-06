@@ -51,7 +51,7 @@ abstract class AbstractShopifyProvider extends AbstractProvider
                 ]), $shopifyProduct->variants),
             ]);
 
-            self::logProduct($product);
+            $this->logger->logProduct($product);
         }
 
         $this->storeProducts($models);
