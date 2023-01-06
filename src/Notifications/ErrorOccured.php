@@ -12,7 +12,7 @@ class ErrorOccured extends AbstractNotification
     ) {
     }
 
-    public function handle(): void
+    protected function handle(): void
     {
         $this->send(
             message: $this->message,

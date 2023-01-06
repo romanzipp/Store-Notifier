@@ -3,6 +3,7 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Models\Event;
 use StoreNotifier\Providers\AbstractProvider;
 
 class NewVariantsAvailable extends AbstractNotification
@@ -14,25 +15,29 @@ class NewVariantsAvailable extends AbstractNotification
     ) {
     }
 
-    public function handle(): void
+    protected function log(): void
     {
-        /** @var \StoreNotifier\Models\Product $product */
-        $product = null;
-        $firstVariant = null;
         foreach ($this->variants as $variant) {
-            $firstVariant = $variant;
-            $product = $variant->product;
-            break;
+            $this->provider->logEvent(
+                Event::TYPE_NEW_VARIANT,
+                $this->getTitle(),
+                null,
+                $variant
+            );
         }
+    }
 
-        if (null === $product || null === $firstVariant) {
+    protected function handle(): void
+    {
+        if (empty($this->variants)) {
             throw new \RuntimeException('Needs product');
         }
 
-        $count = count($this->variants);
-        $title = "{$count} neue Varianten";
-        if (1 === $count) {
-            $title = "Neue Variante '{$firstVariant->title}'";
+        /** @var \StoreNotifier\Models\Product $product */
+        $product = null;
+        foreach ($this->variants as $variant) {
+            $product = $variant->product;
+            break;
         }
 
         $message = $product->title . PHP_EOL . PHP_EOL;
@@ -42,10 +47,27 @@ class NewVariantsAvailable extends AbstractNotification
 
         $this->send(
             message: $message,
-            title: "{$title} für '{$product->title}' @ {$this->provider::getTitle()}",
+            title: "{$this->getTitle()} für '{$product->title}' @ {$this->provider::getTitle()}",
             url: $product->url,
             attachment: $product->image_url,
             prio: Priority::HIGH
         );
+    }
+
+    private function getTitle(): string
+    {
+        $count = count($this->variants);
+
+        $firstVariant = null;
+        foreach ($this->variants as $variant) {
+            $firstVariant = $variant;
+            break;
+        }
+
+        if (1 === $count) {
+            return "Neue Variante '{$firstVariant->title}'";
+        }
+
+        return "{$count} neue Varianten";
     }
 }

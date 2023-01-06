@@ -83,7 +83,7 @@ class BillieEilishUkProvider extends AbstractProvider
                     ]);
                 } catch (\Throwable $exception) {
                     $notification = new ErrorOccured($this, "Error crawling {$url}: {$exception->getMessage()}");
-                    $notification->handle();
+                    $notification->execute();
 
                     dump($exception);
 

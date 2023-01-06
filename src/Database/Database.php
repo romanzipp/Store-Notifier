@@ -73,5 +73,19 @@ class Database
 
             $table->timestamps();
         });
+
+        self::$manager::schema()->create('events', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->string('provider');
+            $table->unsignedInteger('type');
+
+            $table->text('title');
+            $table->text('details')->nullable();
+
+            $table->nullableMorphs('subject');
+
+            $table->timestamps();
+        });
     }
 }

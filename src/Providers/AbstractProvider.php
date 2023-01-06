@@ -4,6 +4,8 @@ namespace StoreNotifier\Providers;
 
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
+use StoreNotifier\Models\AbstractModel;
+use StoreNotifier\Models\Event;
 use StoreNotifier\Models\Product;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
@@ -135,13 +137,38 @@ abstract class AbstractProvider
 
             if ( ! empty($notifyVaraints)) {
                 $notification = new NewVariantsAvailable($this, $notifyVaraints);
-                $notification->handle();
+                $notification->execute();
             }
         }
 
         if ( ! empty($newProducts)) {
             $notification = new NewProductsAvailable($this, $newProducts);
-            $notification->handle();
+            $notification->execute();
         }
+    }
+
+    public function logEvent(int $type, string $title, ?string $details = null, ?AbstractModel $subject = null): void
+    {
+        /** @var \StoreNotifier\Models\Event $event */
+        $event = Event::query()->make([
+            'provider' => static::getId(),
+            'type' => $type,
+            'title' => $title,
+            'details' => $details,
+        ]);
+
+        if (null !== $subject) {
+            $event->subject()->associate($subject);
+        }
+
+        $event->save();
+    }
+
+    public function hasRecenctError(): bool
+    {
+        return Event::query()
+            ->where('provider', static::getId())
+            ->where('created_at', '>', Carbon::now()->subHour())
+            ->count() > 0;
     }
 }

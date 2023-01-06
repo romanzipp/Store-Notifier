@@ -3,6 +3,7 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Models\Event;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -15,9 +16,20 @@ class NewProductsAvailable extends AbstractNotification
     ) {
     }
 
-    public function handle(): void
+    protected function log(): void
     {
-        $title = 'Neues Produkt';
+        foreach ($this->products     as $product) {
+            $this->provider->logEvent(
+                Event::TYPE_NEW_PRODUCT,
+                $this->getTitle(),
+                null,
+                $product
+            );
+        }
+    }
+
+    protected function handle(): void
+    {
         $url = null;
         $image = null;
 
@@ -27,7 +39,6 @@ class NewProductsAvailable extends AbstractNotification
         }
 
         if (($count = count($this->products)) > 1) {
-            $title = "{$count} neue Produkte";
             $url = $this->provider::getUrl();
         }
 
@@ -48,10 +59,19 @@ class NewProductsAvailable extends AbstractNotification
 
         $this->send(
             message: $message,
-            title: "{$title} @ {$this->provider::getTitle()}",
+            title: "{$this->getTitle()} @ {$this->provider::getTitle()}",
             url: $url,
             attachment: $image,
             prio: Priority::HIGH
         );
+    }
+
+    private function getTitle(): string
+    {
+        if (($count = count($this->products)) > 1) {
+            return "{$count} neue Produkte";
+        }
+
+        return 'Neues Produkt';
     }
 }

@@ -13,7 +13,17 @@ abstract class AbstractNotification
 {
     public AbstractProvider $provider;
 
-    abstract public function handle(): void;
+    public function execute(): void
+    {
+        $this->log();
+        $this->handle();
+    }
+
+    abstract protected function handle(): void;
+
+    protected function log(): void
+    {
+    }
 
     final protected function send(
         string $message,
