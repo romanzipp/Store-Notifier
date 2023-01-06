@@ -26,6 +26,6 @@ foreach ($providers as $provider) {
             $notification->execute();
         }
 
-        dump($exception);
+        echo "ERROR in {$provider::getId()}: {$exception->getMessage()}";
     }
 }
