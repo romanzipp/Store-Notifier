@@ -4,7 +4,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use StoreNotifier\Database\Database;
-use StoreNotifier\Log\Logger;
 use StoreNotifier\Models\Event;
 use StoreNotifier\Notifications\ErrorOccured;
 use StoreNotifier\Providers\AbstractProvider;
