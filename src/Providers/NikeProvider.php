@@ -25,7 +25,7 @@ class NikeProvider extends AbstractProvider
         return 'https://nike.com';
     }
 
-    private function getMonitoredProducts()
+    private function getMonitoredProducts(): array
     {
         return [
             [
@@ -39,12 +39,11 @@ class NikeProvider extends AbstractProvider
 
     public function handle(): void
     {
-        // https://api.nike.com/product_feed/threads/v2?filter=language(de)&filter=marketplace(DE)&filter=channelId(d9a5bc42-4b9c-4976-858a-f159cf99c647)&filter=productInfo.merchProduct.styleColor(DV7585-200,DQ7668-100,FJ2895-100,DZ7338-001,DH5623-101,DM0107-500,DQ7558-101,DQ7659-101,DQ7584-100,DH2933-101,CW2289-111,DZ4512-100)
         // https://api.nike.com/product_feed/threads/v2
-        //  ?filter=language(de)
-        //  &filter=marketplace(DE)
-        //  &filter=channelId(d9a5bc42-4b9c-4976-858a-f159cf99c647)
-        //  &filter=productInfo.merchProduct.styleColor(DV7585-200,DQ7668-100,FJ2895-100,DZ7338-001,DH5623-101,DM0107-500,DQ7558-101,DQ7659-101,DQ7584-100,DH2933-101,CW2289-111,DZ4512-100)
+        //    ?filter=language(de)
+        //    &filter=marketplace(DE)
+        //    &filter=channelId(d9a5bc42-4b9c-4976-858a-f159cf99c647)
+        //    &filter=productInfo.merchProduct.styleColor(DV7585-200,DQ7668-100,FJ2895-100,DZ7338-001,DH5623-101,DM0107-500,DQ7558-101,DQ7659-101,DQ7584-100,DH2933-101,CW2289-111,DZ4512-100)
 
         $products = [];
 
