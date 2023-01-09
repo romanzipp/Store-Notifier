@@ -41,12 +41,12 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            new NikeProvider(),
             new PhoebeBridgersUkProvider(),
             new PhoebeBridgersUsProvider(),
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
-            new NikeProvider(),
         ];
     }
 
