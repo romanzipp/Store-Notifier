@@ -72,6 +72,6 @@ class NewProductsAvailable extends AbstractNotification
             return "{$count} neue Produkte";
         }
 
-        return 'Neues Produkt';
+        return 'NEUES PRODUKT';
     }
 }

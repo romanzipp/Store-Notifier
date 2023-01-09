@@ -2,12 +2,9 @@
 
 namespace StoreNotifier\Providers;
 
-use Campo\UserAgent;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\RequestOptions;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use Symfony\Component\DomCrawler\Crawler;
@@ -27,16 +24,6 @@ class BillieEilishDeProvider extends AbstractProvider
     public static function getUrl(): string
     {
         return 'https://www.billieeilishstore.de/';
-    }
-
-    private static function newClient(): Client
-    {
-        return new Client([
-            RequestOptions::HEADERS => [
-                'User-Agent' => UserAgent::random(),
-                'X-Forwarded-For' => sprintf('%d.%d.%d.%d', rand(11, 254), rand(1, 255), rand(1, 255), rand(1, 255)),
-            ],
-        ]);
     }
 
     private function retryRequest(\Closure $requestClosure, int $max = 5): Response
@@ -65,7 +52,7 @@ class BillieEilishDeProvider extends AbstractProvider
     public function handle(): void
     {
         try {
-            $contents = $this->retryRequest(fn () => self::newClient()->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html'))
+            $contents = $this->retryRequest(fn () => self::newHttpClient()->get('https://www.bravado.de/p50-a157330/billie-eilish/index.html'))
                 ->getBody()
                 ->getContents();
         } catch (ClientException $exception) {
@@ -97,7 +84,7 @@ class BillieEilishDeProvider extends AbstractProvider
                    // https://www.bravado.de/pSFPAjaxProduct?id=0196177046412
                    $detailUrl = "https://www.bravado.de/pSFPAjaxProduct?id={$product->store_product_id}";
 
-                   $detailContents = self::retryRequest(fn () => self::newClient()->get($detailUrl))
+                   $detailContents = self::retryRequest(fn () => self::newHttpClient()->get($detailUrl))
                        ->getBody()
                        ->getContents();
                } catch (ClientException $exception) {

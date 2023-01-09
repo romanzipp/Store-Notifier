@@ -2,8 +2,11 @@
 
 namespace StoreNotifier\Providers;
 
+use Campo\UserAgent;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\RequestOptions;
 use StoreNotifier\Log\Logger;
 use StoreNotifier\Models\AbstractModel;
 use StoreNotifier\Models\Event;
@@ -43,6 +46,7 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
+            new NikeProvider(),
         ];
     }
 
@@ -176,5 +180,18 @@ abstract class AbstractProvider
             ->where('provider', static::getId())
             ->where('created_at', '>', Carbon::now()->subHour())
             ->count() > 0;
+    }
+
+    protected static function newHttpClient(array $mergeConfig = []): Client
+    {
+        $requestOptions = $mergeConfig;
+        if ( ! isset($requestOptions[RequestOptions::HEADERS])) {
+            $requestOptions[RequestOptions::HEADERS] = [];
+        }
+
+        $requestOptions[RequestOptions::HEADERS]['User-Agent'] = UserAgent::random();
+        $requestOptions[RequestOptions::HEADERS]['X-Forwarded-For'] = sprintf('%d.%d.%d.%d', rand(11, 254), rand(1, 255), rand(1, 255), rand(1, 255));
+
+        return new Client($requestOptions);
     }
 }

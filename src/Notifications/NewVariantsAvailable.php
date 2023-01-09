@@ -40,14 +40,14 @@ class NewVariantsAvailable extends AbstractNotification
             break;
         }
 
-        $message = $product->title . PHP_EOL . PHP_EOL;
+        $message = $product->title . PHP_EOL;
         foreach ($this->variants as $variant) {
-            $message .= "{$variant->title} ({$variant->getPrettyPrice()})";
+            $message .= "NEU: {$variant->title} ({$variant->getPrettyPrice()})" . PHP_EOL;
         }
 
         $this->send(
             message: $message,
-            title: "{$this->getTitle()} für '{$product->title}' @ {$this->provider::getTitle()}",
+            title: "{$this->getTitle()} ({$this->provider::getTitle()})",
             url: $product->url,
             attachment: $product->image_url,
             prio: Priority::HIGH
@@ -65,7 +65,7 @@ class NewVariantsAvailable extends AbstractNotification
         }
 
         if (1 === $count) {
-            return "Neue Variante '{$firstVariant->title}'";
+            return "Neue Variante: {$firstVariant->title}";
         }
 
         return "{$count} neue Varianten";
