@@ -42,7 +42,7 @@ class NewVariantsAvailable extends AbstractNotification
 
         $message = $product->title . PHP_EOL;
         foreach ($this->variants as $variant) {
-            $message .= "NEU: {$variant->title} ({$variant->getPrettyPrice()})" . PHP_EOL;
+            $message .= "NEU: {$variant->title} @ {$variant->getPrettyPrice()}" . PHP_EOL;
         }
 
         $this->send(
