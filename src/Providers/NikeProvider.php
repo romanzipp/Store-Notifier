@@ -27,6 +27,8 @@ class NikeProvider extends AbstractProvider
 
     private function getMonitoredProducts(): array
     {
+        return [];
+
         return [
             [
                 'url' => 'https://api.nike.com/product_feed/threads/v2?filter=language(de)&filter=marketplace(DE)&filter=channelId(d9a5bc42-4b9c-4976-858a-f159cf99c647)&filter=productInfo.merchProduct.styleColor(DR9513-100)',
