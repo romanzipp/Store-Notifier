@@ -11,7 +11,7 @@ class PhoebeBridgersUsProvider extends AbstractShopifyProvider
 
     public static function getTitle(): string
     {
-        return 'Phoebe (US)';
+        return 'Phoebe US';
     }
 
     public static function getUrl(): string

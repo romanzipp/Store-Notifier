@@ -11,7 +11,7 @@ final class BillieEilishUsProvider extends AbstractShopifyProvider
 
     public static function getTitle(): string
     {
-        return 'Billie (US)';
+        return 'Billie US';
     }
 
     public static function getUrl(): string
