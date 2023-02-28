@@ -15,11 +15,11 @@ $dotenv->load();
 
 $filter = null;
 
-if (in_array('--dry', $argv)) {
-    AbstractProvider::$dryRun = true;
-}
-
 foreach ($argv as $arg) {
+    if ('--dry' === $arg) {
+        AbstractProvider::$dryRun = true;
+    }
+
     if (str_starts_with($arg, '--filter')) {
         $filter = trim(str_replace('--filter=', '', $arg));
     }
