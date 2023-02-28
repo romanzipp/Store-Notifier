@@ -13,7 +13,25 @@ new Database();
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+$filter = null;
+
+if (in_array('--dry', $argv)) {
+    AbstractProvider::$dryRun = true;
+}
+
+foreach ($argv as $arg) {
+    if (str_starts_with($arg, '--filter')) {
+        $filter = trim(str_replace('--filter=', '', $arg));
+    }
+}
+
 $providers = AbstractProvider::getAll();
+
+if ($filter) {
+    $providers = array_filter($providers, function (AbstractProvider $provider) use ($filter) {
+        return str_contains($provider::getId(), $filter) || str_contains(get_class($provider), $filter);
+    });
+}
 
 foreach ($providers as $provider) {
     try {

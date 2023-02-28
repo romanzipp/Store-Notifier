@@ -19,6 +19,8 @@ use StoreNotifier\Providers\Data\ModelData\VariantData;
 
 abstract class AbstractProvider
 {
+    public static bool $dryRun = false;
+
     public Logger $logger;
 
     abstract public static function getId(): string;
@@ -41,6 +43,7 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            new GirlInRedUsProvider(),
             new FinneasProvider(),
             new BringMeTheHorizonProvider(),
             new NikeProvider(),
@@ -49,7 +52,6 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
-            new GirlInRedUsProvider(),
         ];
     }
 
