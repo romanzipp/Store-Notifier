@@ -103,9 +103,15 @@ abstract class AbstractProvider
             unset($data['store_product_id']);
             unset($data['variants']);
 
-            $product = Product::query()->updateOrCreate([
-                'store_product_id' => $productItem->store_product_id,
-            ], $data);
+            $product = self::$dryRun
+                ? new Product(array_merge($data, ['store_product_id' => $productItem->store_product_id]))
+                : Product::query()->updateOrCreate([
+                    'store_product_id' => $productItem->store_product_id,
+                ], $data);
+
+            if (self::$dryRun) {
+                $product->wasRecentlyCreated = 0 === Product::query()->where('store_product_id', $productItem->store_product_id)->count();
+            }
 
             // Variants
 
@@ -126,15 +132,19 @@ abstract class AbstractProvider
             $variants = [];
 
             foreach ($productItem->variants as $variantItem) {
-                $variants[] = $product->variants()->updateOrCreate([
-                    'store_variant_id' => $variantItem->store_variant_id,
-                ], [
+                $variantData = [
                     'title' => $variantItem->title,
                     'price' => $variantItem->price,
                     'currency' => $variantItem->currency,
                     'available' => $variantItem->available,
                     'units_available' => $variantItem->units_available,
-                ]);
+                ];
+
+                $variants[] = self::$dryRun
+                    ? new Variant(array_merge($variantData, ['store_variant_id' => $variantItem->store_variant_id]))
+                    : $product->variants()->updateOrCreate([
+                        'store_variant_id' => $variantItem->store_variant_id,
+                    ], $variantData);
             }
 
             if ($product->wasRecentlyCreated) {
