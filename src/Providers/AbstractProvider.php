@@ -49,6 +49,7 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
+            new GirlInRedUsProvider(),
         ];
     }
 
