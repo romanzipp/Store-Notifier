@@ -5,7 +5,6 @@ namespace StoreNotifier\Notifications;
 use donatj\Pushover\Priority;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\RequestOptions;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -37,10 +36,17 @@ abstract class AbstractNotification
         $attachmentData = null;
 
         if ($attachment) {
-            try {
-                $attachmentData = Utils::tryFopen($attachment, 'r');
-            } catch (\RuntimeException $exception) {
-            }
+            $image = new \Imagick();
+            $image->readImageBlob(
+                file_get_contents($attachment)
+            );
+
+            $image->thumbnailImage(600, 600, false, false);
+            $image->setImageCompression(\Imagick::COMPRESSION_JPEG);
+            $image->setImageCompressionQuality(85);
+            $image->stripImage();
+
+            $attachmentData = $image->getImageBlob();
         }
 
         $params = [
@@ -75,14 +81,7 @@ abstract class AbstractNotification
                 RequestOptions::MULTIPART => $multipart,
             ]);
         } catch (ClientException $exception) {
-            throw new class(@json_decode($exception->getResponse()->getBody()->getContents())) extends \Exception {
-                public function __construct(\stdClass $json)
-                {
-                    parent::__construct(
-                        json_encode($json, JSON_PRETTY_PRINT)
-                    );
-                }
-            };
+            throw new \Exception(($data = @json_decode($exception->getResponse()->getBody()->getContents())) ? json_encode($data, JSON_PRETTY_PRINT) : $exception->getMessage());
         }
     }
 }
