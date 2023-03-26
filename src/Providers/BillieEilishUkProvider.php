@@ -29,7 +29,7 @@ class BillieEilishUkProvider extends AbstractProvider
     {
         // Powered by https://www.digitalstores.co.uk/
         $mainUrls = [
-            '*/Merch/',
+            '*/Apparel/',
             '*/Accessories/',
             '*/Music/',
             '*/Kids/',
