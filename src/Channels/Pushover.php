@@ -37,7 +37,7 @@ final class Pushover extends AbstractChannel
         }
 
         $params = [
-            'message' => $message,
+            'message' => $message->message,
             'title' => $message->title,
             'priority' => $message->prio,
             'url' => $message->url,
