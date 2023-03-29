@@ -2,7 +2,6 @@
 
 namespace StoreNotifier\Notifications;
 
-use donatj\Pushover\Priority;
 use StoreNotifier\Channels\Message\MessagePayload;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -22,23 +21,10 @@ abstract class AbstractNotification
     {
     }
 
-    final protected function send(
-        string $message,
-        string $title,
-        ?string $url = null,
-        ?string $attachment = null,
-        int $prio = Priority::NORMAL
-    ): void {
+    final protected function send(MessagePayload $message): void
+    {
         foreach ($this->provider->getChannels() as $channel) {
-            $channel->sendMessage(
-                new MessagePayload(
-                    $message,
-                    $title,
-                    $url,
-                    $attachment,
-                    $prio
-                )
-            );
+            $channel->sendMessage($message);
         }
     }
 }

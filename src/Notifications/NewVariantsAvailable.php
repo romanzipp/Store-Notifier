@@ -3,6 +3,8 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Channels\Message\MessageItem;
+use StoreNotifier\Channels\Message\MessagePayload;
 use StoreNotifier\Models\Event;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -45,13 +47,22 @@ class NewVariantsAvailable extends AbstractNotification
             $message .= "NEU: {$variant->title} @ {$variant->getPrettyPrice()}" . PHP_EOL;
         }
 
-        $this->send(
+        $items = [];
+        foreach ($this->variants as $variant) {
+            $items[] = new MessageItem($variant->title, $variant->product?->url);
+        }
+
+        $title = "{$this->getTitle()} ({$this->provider::getTitle()})";
+
+        $this->send(new MessagePayload(
             message: $message,
-            title: "{$this->getTitle()} ({$this->provider::getTitle()})",
+            title: $title,
+            subtitle: $product->title,
             url: $product->url,
             attachment: $product->image_url,
-            prio: Priority::HIGH
-        );
+            prio: Priority::HIGH,
+            items: $items
+        ));
     }
 
     private function getTitle(): string

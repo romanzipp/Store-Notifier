@@ -3,6 +3,8 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Channels\Message\MessageItem;
+use StoreNotifier\Channels\Message\MessagePayload;
 use StoreNotifier\Models\Event;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Providers\AbstractProvider;
@@ -32,10 +34,18 @@ class NewProductsAvailable extends AbstractNotification
     {
         $url = null;
         $image = null;
+        $items = [];
 
         foreach ($this->products as $product) {
-            ! $image && ($image = $product->image_url);
-            ! $url && ($url = $product->url);
+            if ( ! $image) {
+                $image = $product->image_url;
+            }
+
+            if ( ! $url) {
+                $url = $product->url;
+            }
+
+            $items[] = new MessageItem($product->title, $product->url);
         }
 
         if (($count = count($this->products)) > 1) {
@@ -57,13 +67,16 @@ class NewProductsAvailable extends AbstractNotification
             $message .= $messageLine;
         }
 
-        $this->send(
+        $title = "{$this->getTitle()} @ {$this->provider::getTitle()}";
+
+        $this->send(new MessagePayload(
             message: $message,
-            title: "{$this->getTitle()} @ {$this->provider::getTitle()}",
+            title: $title,
             url: $url,
             attachment: $image,
-            prio: Priority::HIGH
-        );
+            prio: Priority::HIGH,
+            items: $items
+        ));
     }
 
     private function getTitle(): string

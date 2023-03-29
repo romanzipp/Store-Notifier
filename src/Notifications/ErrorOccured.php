@@ -2,6 +2,7 @@
 
 namespace StoreNotifier\Notifications;
 
+use StoreNotifier\Channels\Message\MessagePayload;
 use StoreNotifier\Providers\AbstractProvider;
 
 class ErrorOccured extends AbstractNotification
@@ -14,9 +15,9 @@ class ErrorOccured extends AbstractNotification
 
     protected function handle(): void
     {
-        $this->send(
+        $this->send(new MessagePayload(
             message: $this->message,
             title: "Error in {$this->provider::getId()}"
-        );
+        ));
     }
 }

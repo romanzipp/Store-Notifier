@@ -20,7 +20,24 @@ final class Telegram extends AbstractChannel
 
         $client = new Client();
 
-        $text = sprintf("✨ *%s* ✨\n\n%s\n\n%s", $message->title, $message->message, $message->url);
+        $text = sprintf('✨ *%s* ✨', $message->title);
+
+        if ($message->subtitle) {
+            $text .= "\n\n👕 {$message->subtitle}";
+        }
+
+        $text .= "\n\n";
+
+        if ( ! empty($message->items)) {
+            foreach ($message->items as $item) {
+                $text .= sprintf('- [%s](%s)', $item->name, $item->url ?? $message->url);
+                $text .= "\n";
+            }
+        } else {
+            $text .= $message->message;
+            $text .= "\n\n";
+            $text .= $message->url;
+        }
 
         try {
             $client->post("https://api.telegram.org/bot{$apiKey}/sendMessage", [
@@ -33,6 +50,5 @@ final class Telegram extends AbstractChannel
         } catch (ClientException $exception) {
             throw new \Exception(($data = @json_decode($exception->getResponse()->getBody()->getContents())) ? json_encode($data, JSON_PRETTY_PRINT) : $exception->getMessage());
         }
-        dd('ok');
     }
 }
