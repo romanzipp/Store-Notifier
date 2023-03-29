@@ -3,6 +3,8 @@
 namespace StoreNotifier\Providers;
 
 use GuzzleHttp\Client;
+use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Notifications\ErrorOccured;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
@@ -23,6 +25,14 @@ class BillieEilishUkProvider extends AbstractProvider
     public static function getUrl(): string
     {
         return 'https://shopuk.billieeilish.com';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+            new Telegram(),
+        ];
     }
 
     public function handle(): void

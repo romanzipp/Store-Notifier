@@ -3,6 +3,8 @@
 namespace StoreNotifier\Providers;
 
 use Illuminate\Support\Arr;
+use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use Symfony\Component\DomCrawler\Crawler;
@@ -22,6 +24,14 @@ class FinneasProvider extends AbstractProvider
     public static function getUrl(): string
     {
         return 'https://www.finneasofficial.com';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+            new Telegram(),
+        ];
     }
 
     public function handle(): void

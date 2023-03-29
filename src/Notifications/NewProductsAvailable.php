@@ -18,7 +18,7 @@ class NewProductsAvailable extends AbstractNotification
 
     protected function log(): void
     {
-        foreach ($this->products     as $product) {
+        foreach ($this->products as $product) {
             $this->provider->logEvent(
                 Event::TYPE_NEW_PRODUCT,
                 $this->getTitle(),

@@ -2,6 +2,9 @@
 
 namespace StoreNotifier\Providers;
 
+use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
+
 final class BillieEilishUsProvider extends AbstractShopifyProvider
 {
     public static function getId(): string
@@ -21,5 +24,13 @@ final class BillieEilishUsProvider extends AbstractShopifyProvider
         // https://store.billieeilish.com/collections/apparel/products.json
         // https://store.billieeilish.com/collections/apparel/products/cut-out-red-tour-t-shirt.json
         return 'https://store.billieeilish.com';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+            new Telegram(),
+        ];
     }
 }

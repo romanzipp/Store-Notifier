@@ -2,6 +2,8 @@
 
 namespace StoreNotifier\Providers;
 
+use StoreNotifier\Channels\Telegram;
+
 final class BringMeTheHorizonProvider extends AbstractShopifyProvider
 {
     public static function getId(): string
@@ -17,5 +19,12 @@ final class BringMeTheHorizonProvider extends AbstractShopifyProvider
     public static function getUrl(): string
     {
         return 'https://www.horizonsupply.co';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Telegram(),
+        ];
     }
 }

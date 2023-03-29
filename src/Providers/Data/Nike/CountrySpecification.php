@@ -10,7 +10,7 @@ class CountrySpecification extends AbstractData
 
     public string $localizedSize;
 
-    public static function fromApi(\stdClass $data):self
+    public static function fromApi(\stdClass $data): self
     {
         return new self([
             'country' => $data->country,

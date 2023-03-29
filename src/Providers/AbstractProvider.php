@@ -34,6 +34,11 @@ abstract class AbstractProvider
 
     abstract public function handle(): void;
 
+    /**
+     * @return \StoreNotifier\Channels\AbstractChannel[]
+     */
+    abstract public function getChannels(): array;
+
     public function __construct()
     {
         $this->logger = new Logger();

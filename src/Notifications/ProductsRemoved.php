@@ -4,5 +4,4 @@ namespace StoreNotifier\Notifications;
 
 class ProductsRemoved
 {
-
 }

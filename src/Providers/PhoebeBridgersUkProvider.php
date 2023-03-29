@@ -2,6 +2,9 @@
 
 namespace StoreNotifier\Providers;
 
+use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
+
 class PhoebeBridgersUkProvider extends AbstractShopifyProvider
 {
     public static function getId(): string
@@ -17,5 +20,13 @@ class PhoebeBridgersUkProvider extends AbstractShopifyProvider
     public static function getUrl(): string
     {
         return 'https://phoebe-bridgers-uk.myshopify.com';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+            new Telegram(),
+        ];
     }
 }

@@ -12,7 +12,7 @@ class Sku extends AbstractData
 
     public string $nikeSize;
 
-    public static function fromApi(\stdClass $data):self
+    public static function fromApi(\stdClass $data): self
     {
         return new self([
             'id' => $data->id,

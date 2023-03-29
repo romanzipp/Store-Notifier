@@ -5,6 +5,8 @@ namespace StoreNotifier\Providers;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
+use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use Symfony\Component\DomCrawler\Crawler;
@@ -24,6 +26,14 @@ class BillieEilishDeProvider extends AbstractProvider
     public static function getUrl(): string
     {
         return 'https://www.billieeilishstore.de/';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+            new Telegram(),
+        ];
     }
 
     private function retryRequest(\Closure $requestClosure, int $max = 5): Response

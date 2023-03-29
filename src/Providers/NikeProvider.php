@@ -2,6 +2,7 @@
 
 namespace StoreNotifier\Providers;
 
+use StoreNotifier\Channels\Pushover;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 use StoreNotifier\Providers\Data\Nike\CountrySpecification;
@@ -23,6 +24,13 @@ class NikeProvider extends AbstractProvider
     public static function getUrl(): string
     {
         return 'https://nike.com';
+    }
+
+    public function getChannels(): array
+    {
+        return [
+            new Pushover(),
+        ];
     }
 
     private function getMonitoredProducts(): array
