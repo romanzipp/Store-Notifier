@@ -3,7 +3,6 @@
 namespace StoreNotifier\Providers;
 
 use StoreNotifier\Channels\Pushover;
-use StoreNotifier\Channels\Telegram;
 
 class PhoebeBridgersUkProvider extends AbstractShopifyProvider
 {
@@ -26,7 +25,6 @@ class PhoebeBridgersUkProvider extends AbstractShopifyProvider
     {
         return [
             new Pushover(),
-            new Telegram(),
         ];
     }
 }
