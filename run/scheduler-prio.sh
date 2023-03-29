@@ -3,5 +3,5 @@
 while true
 do
   php $(pwd)/app.php --preset=prio
-  sleep 60
+  sleep 5
 done
