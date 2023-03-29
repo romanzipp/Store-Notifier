@@ -22,7 +22,9 @@ abstract class AbstractShopifyProvider extends AbstractProvider
 
         /** @var \StoreNotifier\Providers\Data\Shopify\ShopifyProduct[] $shopifyProducts */
         $shopifyProducts = self::wrapArray(
-            $client->get('products.json'),
+            $client->get('products.json', [
+                'limit' => 500,
+            ]),
             ShopifyProduct::class,
             fn (\stdClass $response) => $response->products
         );
