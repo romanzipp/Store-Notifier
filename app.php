@@ -14,6 +14,7 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $filter = null;
+$preset = null;
 
 foreach ($argv as $arg) {
     if ('--dry' === $arg) {
@@ -23,9 +24,17 @@ foreach ($argv as $arg) {
     if (str_starts_with($arg, '--filter')) {
         $filter = trim(str_replace('--filter=', '', $arg));
     }
+
+    if (str_starts_with($arg, '--preset')) {
+        $preset = trim(str_replace('--preset=', '', $arg));
+    }
 }
 
 $providers = AbstractProvider::getAll();
+
+if ($preset) {
+    $providers = AbstractProvider::getPresets()[$preset] ?? throw new RuntimeException("Preset {$preset} not available");
+}
 
 if ($filter) {
     $providers = array_filter($providers, function (AbstractProvider $provider) use ($filter) {

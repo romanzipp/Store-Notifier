@@ -19,6 +19,9 @@ use StoreNotifier\Providers\Data\ModelData\VariantData;
 
 abstract class AbstractProvider
 {
+    public const PRESET_HIGH_PRIO = 'prio';
+    public const PRESET_LONG_RUNNING = 'lame';
+
     public static bool $dryRun = false;
 
     public Logger $logger;
@@ -52,6 +55,25 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
+        ];
+    }
+
+    public static function getPresets(): array
+    {
+        return [
+            self::PRESET_HIGH_PRIO => [
+                new GirlInRedUsProvider(),
+                new FinneasProvider(),
+                new BringMeTheHorizonProvider(),
+                new NikeProvider(),
+                new PhoebeBridgersUkProvider(),
+                new PhoebeBridgersUsProvider(),
+                new BillieEilishUkProvider(),
+                new BillieEilishUsProvider(),
+            ],
+            self::PRESET_LONG_RUNNING => [
+                new BillieEilishDeProvider(),
+            ],
         ];
     }
 

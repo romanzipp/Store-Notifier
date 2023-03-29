@@ -22,6 +22,9 @@ php app.php
 php app.php --filter=girl
 
 php app.php --filter=girl --dry
+
+php app.php --preset=prio
+php app.php --preset=lame
 ```
 
 ## Docker
