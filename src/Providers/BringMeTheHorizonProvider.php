@@ -2,7 +2,7 @@
 
 namespace StoreNotifier\Providers;
 
-use StoreNotifier\Channels\Telegram;
+use StoreNotifier\Channels\Pushover;
 
 final class BringMeTheHorizonProvider extends AbstractShopifyProvider
 {
@@ -24,7 +24,7 @@ final class BringMeTheHorizonProvider extends AbstractShopifyProvider
     public function getChannels(): array
     {
         return [
-            new Telegram(),
+            new Pushover(),
         ];
     }
 }
