@@ -19,7 +19,7 @@ class GirlInRedUsProvider extends AbstractShopifyProvider
 
     public static function getUrl(): string
     {
-        return 'https://us.shopgirlinred.com';
+        return 'https://shopgirlinred.com';
     }
 
     public function getChannels(): array

@@ -9,7 +9,7 @@ Scans all products in a specific store and sends notifications on new products a
 - [Billie Eilish Store (US)](https://store.billieeilish.com) - _Shopify_
 - [Bring Me The Horizon](https://www.horizonsupply.co/) - _Shopify_
 - [Finneas](https://www.finneasofficial.com/)
-- [girl in red (US)](https://us.shopgirlinred.com/) - _Shopify_
+- [girl in red (US)](https://shopgirlinred.com/) - _Shopify_
 - [Nike](https://www.nike.com)
 - [Phoebe Bridgers (UK)](https://phoebe-bridgers-uk.myshopify.com) - _Shopify_
 - [Phoebe Bridgers (US)](https://store.phoebefuckingbridgers.com) - _Shopify_
