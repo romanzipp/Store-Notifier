@@ -10,6 +10,8 @@ Scans all products in a specific store and sends notifications on new products a
 - [Bring Me The Horizon](https://www.horizonsupply.co/) - _Shopify_
 - [Finneas](https://www.finneasofficial.com/)
 - [girl in red (US)](https://shopgirlinred.com/) - _Shopify_
+- [Kummer](https://krasserstoff.com/artists/kummer) - _Krasserstoff_
+- [Kraftklub](https://krasserstoff.com/kraftklub-kargo) - _Krasserstoff_
 - [Nike](https://www.nike.com)
 - [Phoebe Bridgers (UK)](https://phoebe-bridgers-uk.myshopify.com) - _Shopify_
 - [Phoebe Bridgers (US)](https://store.phoebefuckingbridgers.com) - _Shopify_
