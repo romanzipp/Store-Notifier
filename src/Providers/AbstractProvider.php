@@ -51,6 +51,8 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            new KummerProvider(),
+            new KraftklubProvider(),
             new GirlInRedUsProvider(),
             new FinneasProvider(),
             new BringMeTheHorizonProvider(),
@@ -67,6 +69,8 @@ abstract class AbstractProvider
     {
         return [
             self::PRESET_HIGH_PRIO => [
+                new KummerProvider(),
+                new KraftklubProvider(),
                 new GirlInRedUsProvider(),
                 new FinneasProvider(),
                 new BringMeTheHorizonProvider(),
