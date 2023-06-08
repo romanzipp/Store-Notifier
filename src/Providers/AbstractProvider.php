@@ -231,6 +231,8 @@ abstract class AbstractProvider
     protected static function newHttpClient(array $mergeConfig = []): Client
     {
         $requestOptions = $mergeConfig;
+        $requestOptions['timeout'] = 15;
+
         if ( ! isset($requestOptions[RequestOptions::HEADERS])) {
             $requestOptions[RequestOptions::HEADERS] = [];
         }
