@@ -52,6 +52,7 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            new MpbProvider(),
             new KummerProvider(),
             new KraftklubProvider(),
             new GirlInRedUsProvider(),
@@ -63,7 +64,6 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
-            new MpbProvider(),
         ];
     }
 
@@ -71,6 +71,7 @@ abstract class AbstractProvider
     {
         return [
             self::PRESET_HIGH_PRIO => [
+                new MpbProvider(),
                 new KummerProvider(),
                 new KraftklubProvider(),
                 new GirlInRedUsProvider(),
@@ -81,7 +82,6 @@ abstract class AbstractProvider
                 new PhoebeBridgersUsProvider(),
                 new BillieEilishUkProvider(),
                 new BillieEilishUsProvider(),
-                new MpbProvider(),
             ],
             self::PRESET_LONG_RUNNING => [
                 new BillieEilishDeProvider(),

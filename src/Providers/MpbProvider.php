@@ -115,6 +115,8 @@ class MpbProvider extends AbstractProvider
                     'currency' => 'EUR',
                 ]);
             }
+
+            $this->logger->logProduct($product);
         }
 
         $this->storeProducts($products);
