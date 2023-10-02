@@ -14,6 +14,7 @@ use StoreNotifier\Models\Product;
 use StoreNotifier\Models\Variant;
 use StoreNotifier\Notifications\NewProductsAvailable;
 use StoreNotifier\Notifications\NewVariantsAvailable;
+use StoreNotifier\Notifications\VariantsRemoved;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 
@@ -108,23 +109,59 @@ abstract class AbstractProvider
      */
     protected function storeProducts(array $productsData): void
     {
-        $productIds = array_map(fn (ProductData $productData) => $productData->store_product_id, $productsData);
+        $productStoreIds = array_map(fn (ProductData $productData) => $productData->store_product_id, $productsData);
+        $variantIds = [];
+
+        foreach ($productsData as $product) {
+            foreach ($product->variants  as $variant) {
+                $variantIds[] = $variant->store_variant_id;
+            }
+        }
 
         /** @var \StoreNotifier\Models\Product[] $existingProducts */
         $existingProducts = [
             ...Product::query()
                 ->where('provider', static::getId())
-                ->whereIn('store_product_id', $productIds)
+                ->whereIn('store_product_id', $productStoreIds)
                 ->get(),
         ];
 
-        /** @var \StoreNotifier\Models\Product[] $removedProducts */
-        $removedProducts = [
-            ...Product::query()
-                ->where('provider', static::getId())
-                ->whereNotIn('store_product_id', $productIds)
+        $productIds = array_map(fn (Product $product) => $product->id, $existingProducts);
+
+        /** @var \StoreNotifier\Models\Variant[] $removedVariants */
+        $removedVariants = [
+            ...Variant::query()
+                ->where('available', true)
+                ->whereIn('product_id', $productIds)
+                ->whereNotIn('store_variant_id', $variantIds)
                 ->get(),
         ];
+
+        if ( ! empty($removedVariants)) {
+            (new VariantsRemoved($this, $removedVariants))->execute();
+
+            foreach ($removedVariants as $removedVariant) {
+                $removedVariant->update([
+                    'available' => false,
+                ]);
+            }
+        }
+
+        // /** @var \StoreNotifier\Models\Product[] $removedProducts */
+        // $removedProducts = [
+        //     ...Product::query()
+        //         ->where('provider', static::getId())
+        //         ->whereNotIn('store_product_id', $productStoreIds)
+        //         ->get(),
+        // ];
+        //
+        // if( ! empty($removedProducts)) {
+        //     (new ProductsRemoved($this, $removedProducts))->execute();
+        //
+        //     foreach ($removedProducts as $removedProduct) {
+        //         $removedProduct->delete();
+        //     }
+        // }
 
         /** @var \StoreNotifier\Models\Product[] $newProducts */
         $newProducts = [];

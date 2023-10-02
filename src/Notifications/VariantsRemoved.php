@@ -6,7 +6,7 @@ use donatj\Pushover\Priority;
 use StoreNotifier\Notifications\Concerns\VariantsNotification;
 use StoreNotifier\Providers\AbstractProvider;
 
-class NewVariantsAvailable extends AbstractNotification
+class VariantsRemoved extends AbstractNotification
 {
     use VariantsNotification;
 
@@ -20,16 +20,16 @@ class NewVariantsAvailable extends AbstractNotification
     protected function handle(): void
     {
         $this->handleVariants(
-            'NEU: %s',
-            Priority::HIGH
+            '🗑️ %s',
+            Priority::LOW
         );
     }
 
     private function getTitle(): string
     {
         return $this->getVariantsTitle(
-            'Neue Variante: %s',
-            '%s neue Varianten'
+            'Entfernte Variante: %s',
+            '%s entfernte Varianten'
         );
     }
 }
