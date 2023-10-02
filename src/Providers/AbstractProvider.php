@@ -62,6 +62,7 @@ abstract class AbstractProvider
             new BillieEilishUkProvider(),
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
+            new MpbProvider(),
         ];
     }
 
@@ -79,6 +80,7 @@ abstract class AbstractProvider
                 new PhoebeBridgersUsProvider(),
                 new BillieEilishUkProvider(),
                 new BillieEilishUsProvider(),
+                new MpbProvider(),
             ],
             self::PRESET_LONG_RUNNING => [
                 new BillieEilishDeProvider(),
