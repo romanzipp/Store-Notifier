@@ -53,6 +53,8 @@ foreach ($providers as $provider) {
             $notification->execute();
         }
 
-        $provider->logger->log("ERROR in {$provider::getId()}: {$exception->getMessage()}");
+        $className = get_class($exception);
+
+        $provider->logger->log("ERROR in {$provider::getId()}: {$exception->getMessage()} ($className)");
     }
 }
