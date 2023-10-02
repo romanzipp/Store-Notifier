@@ -10,7 +10,7 @@ use StoreNotifier\Providers\Data\Shopify\ShopifyVariant;
 
 abstract class AbstractShopifyProvider extends AbstractProvider
 {
-    public function handle(): void
+    final public function handle(): void
     {
         $client = new Client([
             'base_uri' => $baseUri = static::getUrl() . '/',
@@ -23,7 +23,9 @@ abstract class AbstractShopifyProvider extends AbstractProvider
         /** @var \StoreNotifier\Providers\Data\Shopify\ShopifyProduct[] $shopifyProducts */
         $shopifyProducts = self::wrapArray(
             $client->get('products.json', [
-                'limit' => 500,
+                'query' => [
+                    'limit' => 500,
+                ],
             ]),
             ShopifyProduct::class,
             fn (\stdClass $response) => $response->products
