@@ -57,7 +57,7 @@ class MpbProvider extends AbstractProvider
         &facet_field=product_price
         &facet_field=%%2A
         &start=0
-        &rows=8
+        &rows=100
         &minimum_match=100%%25
         EOF;
 
