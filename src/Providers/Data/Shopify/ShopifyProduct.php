@@ -10,7 +10,7 @@ class ShopifyProduct extends AbstractData
 
     public string $title; // "BILLIE \"WHITE SHIRT\""
     public string $handle; // "billie-white-shirt"
-    public string $body_html; // "BILLIE \"WHITE SHIRT\""
+    public ?string $body_html; // "BILLIE \"WHITE SHIRT\""
     public string $published_at; // "2022-08-18T20:46:56-04:00"
     public string $vendor; // "Billie Eilish | Store"
     public string $product_type; // "T-Shirt"
