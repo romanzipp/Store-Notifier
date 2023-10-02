@@ -3,6 +3,8 @@
 namespace StoreNotifier\Notifications;
 
 use donatj\Pushover\Priority;
+use StoreNotifier\Channels\AbstractChannel;
+use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Notifications\Concerns\VariantsNotification;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -23,6 +25,11 @@ class VariantsRemoved extends AbstractNotification
             '🗑️ %s',
             Priority::LOW
         );
+    }
+
+    public function skipsChannel(AbstractChannel $channel): bool
+    {
+        return $channel instanceof Telegram;
     }
 
     private function getTitle(): string

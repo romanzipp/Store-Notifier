@@ -2,6 +2,7 @@
 
 namespace StoreNotifier\Notifications;
 
+use StoreNotifier\Channels\AbstractChannel;
 use StoreNotifier\Channels\Message\MessagePayload;
 use StoreNotifier\Providers\AbstractProvider;
 
@@ -17,6 +18,11 @@ abstract class AbstractNotification
 
     abstract protected function handle(): void;
 
+    public function skipsChannel(AbstractChannel $channel): bool
+    {
+        return false;
+    }
+
     protected function log(): void
     {
     }
@@ -24,6 +30,10 @@ abstract class AbstractNotification
     final protected function send(MessagePayload $message): void
     {
         foreach ($this->provider->getChannels() as $channel) {
+            if ($this->skipsChannel($channel)) {
+                continue;
+            }
+
             $channel->sendMessage($message);
         }
     }
