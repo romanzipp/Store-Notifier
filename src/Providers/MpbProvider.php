@@ -92,6 +92,12 @@ class MpbProvider extends AbstractProvider
                 'url' => 'https://www.mpb.com/de-de/produkt/sigma-150-600mm-f5-63-dg-dn-os-sport-sony-fe-fit?sort[productLastOnline]=DESC',
                 'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/2d799831-2981-477b-bc56-223e62bef82e',
             ]),
+            new ProductData([
+                'store_product_id' => '63828',
+                'title' => 'Sony FE 70-200mm f/4 G OSS',
+                'url' => 'https://www.mpb.com/de-de/produkt/sony-fe-70-200mm-f-4-g-oss?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b9ef6828-ed3a-4950-8001-5ead7be99e6f',
+            ]),
         ];
 
         foreach ($products as $product) {
