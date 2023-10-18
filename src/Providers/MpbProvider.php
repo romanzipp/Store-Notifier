@@ -80,17 +80,17 @@ class MpbProvider extends AbstractProvider
             //     'url' => 'https://www.mpb.com/de-de/produkt/sigma-28-70mm-f28-dg-dn-contemporary-sony-e-fit?sort[productLastOnline]=DESC',
             //     'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/12d5b913-9754-4612-bc5d-acab1cb56c40',
             // ]),
+            // new ProductData([
+            //     'store_product_id' => '68774',
+            //     'title' => 'Sigma 24-70mm f/2.8',
+            //     'url' => 'https://www.mpb.com/de-de/produkt/sigma-24-70mm-f28-dg-dn-art-sony-e-fit?sort[productLastOnline]=DESC',
+            //     'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/c2c3158e-0c1e-44c7-b133-a47adc69b50d',
+            // ]),
             new ProductData([
                 'store_product_id' => '77405',
                 'title' => 'Sigma 16-28mm F/2.8',
                 'url' => 'https://www.mpb.com/de-de/produkt/sigma-16-28mm-f2f28-dg-dn-contemporary-sony-e-kompatibel?sort[productLastOnline]=DESC',
                 'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b2fbe187-70ad-4949-884c-d394615cb36c',
-            ]),
-            new ProductData([
-                'store_product_id' => '68774',
-                'title' => 'Sigma 24-70mm f/2.8',
-                'url' => 'https://www.mpb.com/de-de/produkt/sigma-24-70mm-f28-dg-dn-art-sony-e-fit?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/c2c3158e-0c1e-44c7-b133-a47adc69b50d',
             ]),
             new ProductData([
                 'store_product_id' => '70832',
@@ -103,6 +103,18 @@ class MpbProvider extends AbstractProvider
                 'title' => 'Sony FE 70-200mm f/4',
                 'url' => 'https://www.mpb.com/de-de/produkt/sony-fe-70-200mm-f-4-g-oss?sort[productLastOnline]=DESC',
                 'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b9ef6828-ed3a-4950-8001-5ead7be99e6f',
+            ]),
+            new ProductData([
+                'store_product_id' => '67178',
+                'title' => 'Sony RX100 VI',
+                'url' => 'https://www.mpb.com/de-de/produkt/sony-cyber-shot-rx100-mark-vi?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/ba74e0ce-15fc-4fd8-b9af-0c78b4fc4b2b',
+            ]),
+            new ProductData([
+                'store_product_id' => '68224',
+                'title' => 'Sony RX100 VII',
+                'url' => 'https://www.mpb.com/de-de/produkt/sony-cybershot-dsc-rx100-vii?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/3361f811-2f64-46af-9db1-2968e4686588',
             ]),
         ];
 
