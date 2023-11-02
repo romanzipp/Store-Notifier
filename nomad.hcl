@@ -49,8 +49,8 @@ job "store-notifier" {
       }
 
       resources {
-        cpu    = 100
-        memory = 256
+        cpu    = 50
+        memory = 128
       }
     }
 
@@ -85,8 +85,8 @@ job "store-notifier" {
       }
 
       resources {
-        cpu    = 100
-        memory = 256
+        cpu    = 50
+        memory = 128
       }
     }
   }
