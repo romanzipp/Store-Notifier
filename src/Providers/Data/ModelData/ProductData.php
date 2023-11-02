@@ -16,7 +16,7 @@ class ProductData extends AbstractData
     #[Required]
     public string $title;
     public string $url;
-    public string $image_url;
+    public ?string $image_url;
 
     public string $published_at;
     public string $created_at;
