@@ -15,7 +15,7 @@ class ShopifyVariant extends AbstractData
     public string $sku; // "838302063"
     public bool $requires_shipping; // true
     public bool $taxable; // true
-    public ?string $featured_image; // null
+    public ?\stdClass $featured_image; // null
     public bool $available; // false
     public string $price; // "30.00"
     public int $grams; // 200
