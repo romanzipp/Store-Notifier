@@ -5,14 +5,23 @@ namespace StoreNotifier\Channels;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Str;
 use StoreNotifier\Channels\Message\MessagePayload;
 
 final class Telegram extends AbstractChannel
 {
+    public const TYPE_PRIMARY = 'PRIMARY';
+    public const TYPE_SECONDARY = 'SECONDARY';
+
+    public function __construct(
+        public string $type
+    ) {
+    }
+
     public function sendMessage(MessagePayload $message): void
     {
-        $apiKey = $_ENV['TELEGRAM_API_KEY'] ?? null;
-        $channel = $_ENV['TELEGRAM_CHANNEL'] ?? null;
+        $apiKey = $_ENV['TELEGRAM_' . $this->type . '_API_KEY'] ?? null;
+        $channel = $_ENV['TELEGRAM_' . $this->type . '_CHANNEL'] ?? null;
 
         if ( ! $apiKey || ! $channel) {
             return;
@@ -42,7 +51,7 @@ final class Telegram extends AbstractChannel
         try {
             $client->post("https://api.telegram.org/bot{$apiKey}/sendMessage", [
                 RequestOptions::QUERY => [
-                    'text' => $text,
+                    'text' => Str::limit($text, 3500),
                     'parse_mode' => 'markdown',
                     'chat_id' => $channel,
                 ],

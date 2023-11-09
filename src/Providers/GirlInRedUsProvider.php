@@ -26,7 +26,7 @@ class GirlInRedUsProvider extends AbstractShopifyProvider
     {
         return [
             new Pushover(),
-            new Telegram(),
+            new Telegram(Telegram::TYPE_PRIMARY),
         ];
     }
 }
