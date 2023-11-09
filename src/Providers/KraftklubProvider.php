@@ -16,7 +16,7 @@ class KraftklubProvider extends AbstractKrasserStoffProvider
         return 'Kraftklub';
     }
 
-    protected static function getCategory():string
+    protected static function getCategory(): string
     {
         return 'kraftklub-kargo';
     }

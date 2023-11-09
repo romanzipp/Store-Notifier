@@ -2,7 +2,6 @@
 
 namespace StoreNotifier\Providers\Secondary;
 
-use StoreNotifier\Channels\Pushover;
 use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\AbstractShopifyProvider;
 

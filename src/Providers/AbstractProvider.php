@@ -59,7 +59,7 @@ abstract class AbstractProvider
             new KraftklubProvider(),
             new GirlInRedUsProvider(),
             new FinneasProvider(),
-            // new BringMeTheHorizonProvider(),
+            new BringMeTheHorizonProvider(),
             new NikeProvider(),
             new PhoebeBridgersUkProvider(),
             new PhoebeBridgersUsProvider(),
@@ -71,8 +71,8 @@ abstract class AbstractProvider
             // Secondary
 
             new Secondary\NickiMinajUs(),
-            new Secondary\ArianaGrandeUkProvider(),
-            new Secondary\ArianaGrandeUsProvider(),
+            new Secondary\ArianaGrandeUk(),
+            new Secondary\ArianaGrandeUs(),
             new Secondary\DemiLovatoUk(),
             new Secondary\DemiLovatoUs(),
             new Secondary\JonasBrothersUk(),
@@ -108,8 +108,8 @@ abstract class AbstractProvider
                 // Secondary
 
                 new Secondary\NickiMinajUs(),
-                new Secondary\ArianaGrandeUkProvider(),
-                new Secondary\ArianaGrandeUsProvider(),
+                new Secondary\ArianaGrandeUk(),
+                new Secondary\ArianaGrandeUs(),
                 new Secondary\DemiLovatoUk(),
                 new Secondary\DemiLovatoUs(),
                 new Secondary\JonasBrothersUk(),

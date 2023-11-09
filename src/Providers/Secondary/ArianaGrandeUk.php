@@ -2,11 +2,10 @@
 
 namespace StoreNotifier\Providers\Secondary;
 
-use StoreNotifier\Channels\Pushover;
 use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\AbstractShopifyProvider;
 
-final class ArianaGrandeUkProvider extends AbstractShopifyProvider
+final class ArianaGrandeUk extends AbstractShopifyProvider
 {
     public static function getId(): string
     {
