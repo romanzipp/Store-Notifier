@@ -65,6 +65,7 @@ abstract class AbstractProvider
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
             new BillieEilishFragrancesUsProvider(),
+            new NickiMinajProvider(),
         ];
     }
 
@@ -84,6 +85,7 @@ abstract class AbstractProvider
                 new BillieEilishUkProvider(),
                 new BillieEilishUsProvider(),
                 new BillieEilishFragrancesUsProvider(),
+                new NickiMinajProvider(),
             ],
             self::PRESET_LONG_RUNNING => [
                 new BillieEilishDeProvider(),
