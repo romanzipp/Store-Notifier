@@ -52,6 +52,8 @@ abstract class AbstractProvider
     public static function getAll(): array
     {
         return [
+            // Primary
+
             new MpbProvider(),
             new KummerProvider(),
             new KraftklubProvider(),
@@ -65,7 +67,22 @@ abstract class AbstractProvider
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
             new BillieEilishFragrancesUsProvider(),
-            new NickiMinajProvider(),
+
+            // Secondary
+
+            new Secondary\NickiMinajUs(),
+            new Secondary\ArianaGrandeUkProvider(),
+            new Secondary\ArianaGrandeUsProvider(),
+            new Secondary\DemiLovatoUk(),
+            new Secondary\DemiLovatoUs(),
+            new Secondary\JonasBrothersUk(),
+            new Secondary\JonasBrothersUs(),
+            new Secondary\JustinBieberUk(),
+            new Secondary\JustinBieberUs(),
+            new Secondary\NickiMinajUk(),
+            new Secondary\NickiMinajUs(),
+            new Secondary\SelenaGomezUk(),
+            new Secondary\SelenaGomezUs(),
         ];
     }
 
@@ -73,6 +90,8 @@ abstract class AbstractProvider
     {
         return [
             self::PRESET_HIGH_PRIO => [
+                // Primary
+
                 new MpbProvider(),
                 new KummerProvider(),
                 new KraftklubProvider(),
@@ -85,7 +104,22 @@ abstract class AbstractProvider
                 new BillieEilishUkProvider(),
                 new BillieEilishUsProvider(),
                 new BillieEilishFragrancesUsProvider(),
-                new NickiMinajProvider(),
+
+                // Secondary
+
+                new Secondary\NickiMinajUs(),
+                new Secondary\ArianaGrandeUkProvider(),
+                new Secondary\ArianaGrandeUsProvider(),
+                new Secondary\DemiLovatoUk(),
+                new Secondary\DemiLovatoUs(),
+                new Secondary\JonasBrothersUk(),
+                new Secondary\JonasBrothersUs(),
+                new Secondary\JustinBieberUk(),
+                new Secondary\JustinBieberUs(),
+                new Secondary\NickiMinajUk(),
+                new Secondary\NickiMinajUs(),
+                new Secondary\SelenaGomezUk(),
+                new Secondary\SelenaGomezUs(),
             ],
             self::PRESET_LONG_RUNNING => [
                 new BillieEilishDeProvider(),
