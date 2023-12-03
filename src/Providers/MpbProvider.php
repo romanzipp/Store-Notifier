@@ -63,24 +63,6 @@ class MpbProvider extends AbstractProvider
 
         $products = [
             // new ProductData([
-            //     'store_product_id' => '67104',
-            //     'title' => 'Sony Alpha A7 III',
-            //     'url' => 'https://www.mpb.com/de-de/produkt/sony-alpha-a7-iii?sort[productLastOnline]=DESC',
-            //     'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/90b1fe0e-9369-483b-8ce7-5d9f0acea421',
-            // ]),
-            // new ProductData([
-            //     'store_product_id' => '66765',
-            //     'title' => 'Sony Alpha A7R III',
-            //     'url' => 'https://www.mpb.com/de-de/produkt/sony-alpha-a7r-iii?sort[productLastOnline]=DESC',
-            //     'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/bd3c6992-07bb-4910-b82e-9af05997e783',
-            // ]),
-            // new ProductData([
-            //     'store_product_id' => '70585',
-            //     'title' => 'Sigma 28-70mm f/2.8 DG DN',
-            //     'url' => 'https://www.mpb.com/de-de/produkt/sigma-28-70mm-f28-dg-dn-contemporary-sony-e-fit?sort[productLastOnline]=DESC',
-            //     'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/12d5b913-9754-4612-bc5d-acab1cb56c40',
-            // ]),
-            // new ProductData([
             //     'store_product_id' => '68774',
             //     'title' => 'Sigma 24-70mm f/2.8',
             //     'url' => 'https://www.mpb.com/de-de/produkt/sigma-24-70mm-f28-dg-dn-art-sony-e-fit?sort[productLastOnline]=DESC',
@@ -93,28 +75,22 @@ class MpbProvider extends AbstractProvider
                 'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b2fbe187-70ad-4949-884c-d394615cb36c',
             ]),
             new ProductData([
-                'store_product_id' => '70832',
-                'title' => 'Sigma 150-600mm f/5-6.3',
-                'url' => 'https://www.mpb.com/de-de/produkt/sigma-150-600mm-f5-63-dg-dn-os-sport-sony-fe-fit?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/2d799831-2981-477b-bc56-223e62bef82e',
-            ]),
-            new ProductData([
                 'store_product_id' => '63828',
                 'title' => 'Sony FE 70-200mm f/4',
                 'url' => 'https://www.mpb.com/de-de/produkt/sony-fe-70-200mm-f-4-g-oss?sort[productLastOnline]=DESC',
                 'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b9ef6828-ed3a-4950-8001-5ead7be99e6f',
             ]),
             new ProductData([
-                'store_product_id' => '67178',
-                'title' => 'Sony RX100 VI',
-                'url' => 'https://www.mpb.com/de-de/produkt/sony-cyber-shot-rx100-mark-vi?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/ba74e0ce-15fc-4fd8-b9af-0c78b4fc4b2b',
+                'store_product_id' => '66566',
+                'title' => 'Samyang AF 14mm f/2.8',
+                'url' => 'https://www.mpb.com/de-de/produkt/samyang-14mm-f-2-8-af-fe-fit',
+                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/c136e062-df2e-4caf-b7d5-bfc6a6506488',
             ]),
             new ProductData([
-                'store_product_id' => '68224',
-                'title' => 'Sony RX100 VII',
-                'url' => 'https://www.mpb.com/de-de/produkt/sony-cybershot-dsc-rx100-vii?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/3361f811-2f64-46af-9db1-2968e4686588',
+                'store_product_id' => '68433',
+                'title' => 'Samyang AF 18mm f/2.8',
+                'url' => 'https://www.mpb.com/de-de/produkt/samyang-af-18mm-f-2-8-sony-fe-fit',
+                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/3ea31749-99b3-4c0a-aa0e-fbf35d56ef10',
             ]),
         ];
 
