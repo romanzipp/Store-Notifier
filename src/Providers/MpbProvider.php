@@ -75,22 +75,10 @@ class MpbProvider extends AbstractProvider
                 'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b2fbe187-70ad-4949-884c-d394615cb36c',
             ]),
             new ProductData([
-                'store_product_id' => '63828',
-                'title' => 'Sony FE 70-200mm f/4',
-                'url' => 'https://www.mpb.com/de-de/produkt/sony-fe-70-200mm-f-4-g-oss?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/b9ef6828-ed3a-4950-8001-5ead7be99e6f',
-            ]),
-            new ProductData([
-                'store_product_id' => '66566',
-                'title' => 'Samyang AF 14mm f/2.8',
-                'url' => 'https://www.mpb.com/de-de/produkt/samyang-14mm-f-2-8-af-fe-fit',
-                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/c136e062-df2e-4caf-b7d5-bfc6a6506488',
-            ]),
-            new ProductData([
-                'store_product_id' => '68433',
-                'title' => 'Samyang AF 18mm f/2.8',
-                'url' => 'https://www.mpb.com/de-de/produkt/samyang-af-18mm-f-2-8-sony-fe-fit',
-                'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/3ea31749-99b3-4c0a-aa0e-fbf35d56ef10',
+                'store_product_id' => '66632',
+                'title' => 'Sony FE 70-200mm f/2.8',
+                'url' => 'https://www.mpb.com/de-de/produkt/sony-70-200mm-f-2-8-g-ssm-ii-sony-a-kompatibel?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/2a3fa411-e929-45f7-b5ae-9419aaa1c834',
             ]),
         ];
 
