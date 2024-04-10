@@ -4,7 +4,7 @@ Scans all products in a specific store and sends notifications on new products a
 
 ## Supported Stores
 
-- [Billie Eilish Store (DE)](https://www.billieeilishstore.de/) - _Bravado_
+- [Billie Eilish Store (DE)](https://www.billieeilishstore.de/) - _Shopify_
 - [Billie Eilish Store (UK)](https://shopuk.billieeilish.com) - _Shopify_
 - [Billie Eilish Store (US)](https://store.billieeilish.com) - _Shopify_
 - [Bring Me The Horizon](https://www.horizonsupply.co/) - _Shopify_
@@ -16,6 +16,7 @@ Scans all products in a specific store and sends notifications on new products a
 - [Phoebe Bridgers (UK)](https://phoebe-bridgers-uk.myshopify.com) - _Shopify_
 - [Phoebe Bridgers (US)](https://store.phoebefuckingbridgers.com) - _Shopify_
 - [girl in red (US)](https://shopgirlinred.com/) - _Shopify_
+- [Ready2Drink](https://www.ready2drink.de/collections/knabe-malz/products/knabe-malz.json) - _Shopify_
 
 ## Execute
 
