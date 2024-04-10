@@ -67,6 +67,7 @@ abstract class AbstractProvider
             new BillieEilishUsProvider(),
             new BillieEilishDeProvider(),
             new BillieEilishFragrancesUsProvider(),
+            new KnabeMalzProvider(),
 
             // Secondary
 
@@ -90,8 +91,6 @@ abstract class AbstractProvider
     {
         return [
             self::PRESET_HIGH_PRIO => [
-                // Primary
-
                 new MpbProvider(),
                 new KummerProvider(),
                 new KraftklubProvider(),
@@ -101,12 +100,13 @@ abstract class AbstractProvider
                 new NikeProvider(),
                 new PhoebeBridgersUkProvider(),
                 new PhoebeBridgersUsProvider(),
+                new BillieEilishDeProvider(),
                 new BillieEilishUkProvider(),
                 new BillieEilishUsProvider(),
                 new BillieEilishFragrancesUsProvider(),
-
-                // Secondary
-
+                new KnabeMalzProvider(),
+            ],
+            self::PRESET_LONG_RUNNING => [
                 new Secondary\NickiMinajUs(),
                 new Secondary\ArianaGrandeUk(),
                 new Secondary\ArianaGrandeUs(),
@@ -120,9 +120,6 @@ abstract class AbstractProvider
                 new Secondary\NickiMinajUs(),
                 new Secondary\SelenaGomezUk(),
                 new Secondary\SelenaGomezUs(),
-            ],
-            self::PRESET_LONG_RUNNING => [
-                new BillieEilishDeProvider(),
             ],
         ];
     }

@@ -41,7 +41,7 @@ abstract class AbstractShopifyProvider extends AbstractProvider
                 break;
             }
 
-            $models[] = $product = new ProductData([
+            $product = new ProductData([
                 'store_product_id' => (string) $shopifyProduct->id,
                 'title' => $shopifyProduct->title,
                 'url' => "{$baseUri}products/{$shopifyProduct->handle}",
@@ -55,9 +55,20 @@ abstract class AbstractShopifyProvider extends AbstractProvider
                 ]), $shopifyProduct->variants),
             ]);
 
+            if ( ! $this->shouldHandleProduct($product)) {
+                continue;
+            }
+
+            $models[] = $product;
+
             $this->logger->logProduct($product);
         }
 
         $this->storeProducts($models);
+    }
+
+    public function shouldHandleProduct(ProductData $productData): bool
+    {
+        return true;
     }
 }
