@@ -4,6 +4,7 @@ namespace StoreNotifier\Providers;
 
 use GuzzleHttp\Cookie\CookieJar;
 use StoreNotifier\Channels\Pushover;
+use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
 use StoreNotifier\Providers\Data\ModelData\VariantData;
 
@@ -62,12 +63,12 @@ class MpbProvider extends AbstractProvider
         EOF;
 
         $products = [
-            // new ProductData([
-            //     'store_product_id' => '68774',
-            //     'title' => 'Sigma 24-70mm f/2.8',
-            //     'url' => 'https://www.mpb.com/de-de/produkt/sigma-24-70mm-f28-dg-dn-art-sony-e-fit?sort[productLastOnline]=DESC',
-            //     'image_url' => 'https://www.mpb.com/media-service-img-cdn/width=286,quality=90,format=jpeg/media-service/c2c3158e-0c1e-44c7-b133-a47adc69b50d',
-            // ]),
+            new ProductData([
+                'store_product_id' => '62958',
+                'title' => 'Fujifilm X-Pro 1',
+                'url' => 'https://www.mpb.com/de-de/produkt/fuji-x-pro-1?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/31b08b9f-c244-4034-89c8-be1d417d7726',
+            ]),
             new ProductData([
                 'store_product_id' => '77405',
                 'title' => 'Sigma 16-28mm F/2.8',
@@ -120,6 +121,7 @@ class MpbProvider extends AbstractProvider
     {
         return [
             new Pushover(),
+            new Telegram(Telegram::TYPE_TILL),
         ];
     }
 }

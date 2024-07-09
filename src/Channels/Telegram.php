@@ -12,6 +12,7 @@ final class Telegram extends AbstractChannel
 {
     public const TYPE_PRIMARY = 'PRIMARY';
     public const TYPE_SECONDARY = 'SECONDARY';
+    public const TYPE_TILL = 'TILL';
 
     public function __construct(
         public string $type
