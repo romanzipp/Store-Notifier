@@ -3,6 +3,7 @@
 namespace StoreNotifier\Providers;
 
 use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\RequestOptions;
 use StoreNotifier\Channels\Pushover;
 use StoreNotifier\Channels\Telegram;
 use StoreNotifier\Providers\Data\ModelData\ProductData;
@@ -87,7 +88,14 @@ class MpbProvider extends AbstractProvider
             $fullUrl = sprintf($searchUrl, self::getUrl(), $product->store_product_id);
             $fullUrl = str_replace(PHP_EOL, '', $fullUrl);
 
-            $contents = self::newHttpClient()
+            $contents = self::newHttpClient([
+                RequestOptions::HEADERS => [
+                    'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0',
+                    'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                    'Accept-Encoding' => 'gzip, deflate, br, zstd',
+                    'Accept-Language' => 'en-US,en;q=0.7,de;q=0.3',
+                ],
+            ])
                 ->get($fullUrl, [
                     'headers' => [
                         'Content-Language' => 'de_DE',

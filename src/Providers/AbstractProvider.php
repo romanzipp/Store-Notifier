@@ -148,7 +148,7 @@ abstract class AbstractProvider
         $variantIds = [];
 
         foreach ($productsData as $product) {
-            foreach ($product->variants  as $variant) {
+            foreach ($product->variants as $variant) {
                 $variantIds[] = $variant->store_variant_id;
             }
         }
@@ -311,8 +311,8 @@ abstract class AbstractProvider
             $requestOptions[RequestOptions::HEADERS] = [];
         }
 
-        $requestOptions[RequestOptions::HEADERS]['User-Agent'] = UserAgent::random();
-        $requestOptions[RequestOptions::HEADERS]['X-Forwarded-For'] = sprintf('%d.%d.%d.%d', rand(11, 254), rand(1, 255), rand(1, 255), rand(1, 255));
+        $requestOptions[RequestOptions::HEADERS]['User-Agent'] = $requestOptions[RequestOptions::HEADERS]['User-Agent'] ?? UserAgent::random();
+        $requestOptions[RequestOptions::HEADERS]['X-Forwarded-For'] = sprintf('%d.%d.%d.%d', rand(11, 254), rand(1, 254), rand(1, 254), rand(1, 254));
 
         return new Client($requestOptions);
     }
