@@ -23,17 +23,20 @@ final class Pushover extends AbstractChannel
         $attachmentData = null;
 
         if ($message->attachment) {
-            $image = new \Imagick();
-            $image->readImageBlob(
-                file_get_contents($message->attachment)
-            );
+            try {
+                $image = new \Imagick();
+                $image->readImageBlob(
+                    file_get_contents($message->attachment)
+                );
 
-            $image->thumbnailImage(600, 600, false, false);
-            $image->setImageCompression(\Imagick::COMPRESSION_JPEG);
-            $image->setImageCompressionQuality(85);
-            $image->stripImage();
+                $image->thumbnailImage(600, 600, false, false);
+                $image->setImageCompression(\Imagick::COMPRESSION_JPEG);
+                $image->setImageCompressionQuality(85);
+                $image->stripImage();
 
-            $attachmentData = $image->getImageBlob();
+                $attachmentData = $image->getImageBlob();
+            } catch (\Throwable $exception) {
+            }
         }
 
         $params = [
