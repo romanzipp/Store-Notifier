@@ -84,45 +84,58 @@ class MpbProvider extends AbstractProvider
             ]),
         ];
 
-        foreach ($products as $product) {
-            $fullUrl = sprintf($searchUrl, self::getUrl(), $product->store_product_id);
-            $fullUrl = str_replace(PHP_EOL, '', $fullUrl);
+        $errors = [];
 
-            $contents = self::newHttpClient([
-                RequestOptions::HEADERS => [
-                    'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0',
-                    'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                    'Accept-Encoding' => 'gzip, deflate, br, zstd',
-                    'Accept-Language' => 'en-US,en;q=0.7,de;q=0.3',
-                ],
-            ])
-                ->get($fullUrl, [
-                    'headers' => [
+        foreach ($products as $product) {
+            try {
+                $fullUrl = sprintf($searchUrl, self::getUrl(), $product->store_product_id);
+                $fullUrl = str_replace(PHP_EOL, '', $fullUrl);
+
+                $contents = self::newHttpClient([
+                    RequestOptions::HEADERS => [
+                        'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0',
+                        'Accept' => 'application/json, text/plain, */*',
+                        'Accept-Encoding' => 'gzip, deflate, br, zstd',
+                        'Accept-Language' => 'en-US,en;q=0.7,de;q=0.3',
                         'Content-Language' => 'de_DE',
                     ],
-                    'cookies' => CookieJar::fromArray([
-                        'mpb_user_location' => 'DE',
-                    ], 'www.mpb.com'),
                 ])
-                ->getBody()
-                ->getContents();
+                    ->get($fullUrl, [
+                        'headers' => [
+                            'Content-Language' => 'de_DE',
+                        ],
+                        'cookies' => CookieJar::fromArray([
+                            'mpb_user_location' => 'DE',
+                        ], 'www.mpb.com'),
+                    ])
+                    ->getBody()
+                    ->getContents();
 
-            $data = json_decode($contents);
+                $data = json_decode($contents);
 
-            foreach ($data->results as $resultProduct) {
-                $product->variants[] = new VariantData([
-                    'store_variant_id' => array_values($resultProduct->product_id->values)[0],
-                    'title' => ucfirst(strtolower(str_replace('_', ' ', array_values($resultProduct->product_condition->values)[0]))),
-                    'price' => (int) array_values($resultProduct->product_price->values)[0],
-                    'available' => true,
-                    'currency' => 'EUR',
-                ]);
+                foreach ($data->results as $resultProduct) {
+                    $product->variants[] = new VariantData([
+                        'store_variant_id' => array_values($resultProduct->product_id->values)[0],
+                        'title' => ucfirst(strtolower(str_replace('_', ' ', array_values($resultProduct->product_condition->values)[0]))),
+                        'price' => (int) array_values($resultProduct->product_price->values)[0],
+                        'available' => true,
+                        'currency' => 'EUR',
+                    ]);
+                }
+
+                $this->logger->logProduct($product);
+            } catch (\Throwable $exception) {
+                $errors[] = $exception;
             }
-
-            $this->logger->logProduct($product);
         }
 
         $this->storeProducts($products);
+
+        if ( ! empty($errors)) {
+            foreach ($errors as $error) {
+                throw $error;
+            }
+        }
     }
 
     public function getChannels(): array
