@@ -65,10 +65,10 @@ class MpbProvider extends AbstractProvider
 
         $products = [
             new ProductData([
-                'store_product_id' => '62958',
-                'title' => 'Fujifilm X-Pro 1',
-                'url' => 'https://www.mpb.com/de-de/produkt/fuji-x-pro-1?sort[productLastOnline]=DESC',
-                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/31b08b9f-c244-4034-89c8-be1d417d7726',
+                'store_product_id' => '83512',
+                'title' => 'Fujifilm X100VI',
+                'url' => 'https://www.mpb.com/de-de/produkt/fujifilm-x100-vi?sort[productLastOnline]=DESC',
+                'image_url' => 'https://www.mpb.com/cdn-cgi/image/width=286,quality=90,format=jpeg/media-service/1606dcec-3cf0-4ff3-a27e-d6742931e8b0',
             ]),
             new ProductData([
                 'store_product_id' => '77405',
