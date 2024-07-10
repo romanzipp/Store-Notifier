@@ -1,5 +1,5 @@
 FROM composer AS composer
-FROM php:8.1-cli
+FROM php:8.2-cli
 
 ARG DEBIAN_FRONTEND=noninteractive
 
