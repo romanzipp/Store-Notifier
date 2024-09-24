@@ -21,7 +21,7 @@ class NewVariantsAvailable extends AbstractNotification
     {
         $this->handleVariants(
             'NEU: %s',
-            Priority::HIGH
+            Priority::LOW
         );
     }
 
