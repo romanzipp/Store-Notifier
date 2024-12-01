@@ -4,6 +4,7 @@ namespace StoreNotifier\Providers;
 
 use StoreNotifier\Channels\Pushover;
 use StoreNotifier\Channels\Telegram;
+use StoreNotifier\Models\Product;
 
 final class BillieEilishUsProvider extends AbstractShopifyProvider
 {
@@ -32,5 +33,12 @@ final class BillieEilishUsProvider extends AbstractShopifyProvider
             new Pushover(),
             new Telegram(Telegram::TYPE_PRIMARY),
         ];
+    }
+
+    public static function productIgnoresNotifications(Product $product): bool
+    {
+        return in_array($product->title, [
+            'HIT ME HARD AND SOFT SWEATSUIT',
+        ]);
     }
 }

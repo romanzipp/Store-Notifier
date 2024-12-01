@@ -46,6 +46,11 @@ abstract class AbstractProvider
         $this->logger->provider = $this;
     }
 
+    public static function productIgnoresNotifications(Product $product): bool
+    {
+        return false;
+    }
+
     /**
      * @return self[]
      */
@@ -252,7 +257,7 @@ abstract class AbstractProvider
                     ], $variantData);
             }
 
-            if ($product->wasRecentlyCreated) {
+            if ($product->wasRecentlyCreated && ! static::productIgnoresNotifications($product)) {
                 $newProducts[] = $product;
 
                 continue;
@@ -265,7 +270,7 @@ abstract class AbstractProvider
                 ...$newVariants,
             ];
 
-            if ( ! empty($notifyVaraints)) {
+            if ( ! empty($notifyVaraints) && ! static::productIgnoresNotifications($product)) {
                 $notification = new NewVariantsAvailable($this, $notifyVaraints);
                 $notification->execute();
             }
