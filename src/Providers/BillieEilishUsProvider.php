@@ -39,6 +39,7 @@ final class BillieEilishUsProvider extends AbstractShopifyProvider
     {
         return in_array($product->title, [
             'HIT ME HARD AND SOFT SWEATSUIT',
+            'HIT ME HARD AND SOFT COVER TEE',
         ]);
     }
 }
