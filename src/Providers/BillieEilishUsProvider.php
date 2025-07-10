@@ -37,9 +37,7 @@ final class BillieEilishUsProvider extends AbstractShopifyProvider
 
     public static function productIgnoresNotifications(Product $product): bool
     {
-        return in_array($product->title, [
-            'HIT ME HARD AND SOFT SWEATSUIT',
-            'HIT ME HARD AND SOFT COVER TEE',
-        ]);
+        return str_contains($product->title, 'HIT ME HARD AND SOFT SWEATSUIT')
+            || str_contains($product->title, 'HIT ME HARD AND SOFT COVER TEE');
     }
 }
